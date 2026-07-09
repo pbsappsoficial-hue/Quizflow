@@ -972,6 +972,65 @@
             color: var(--primary);
         }
 
+        /* ===== BACKUP MODAL ===== */
+        .backup-code-display {
+            background: var(--gray-900);
+            color: #00FF41;
+            padding: 20px;
+            border-radius: var(--radius);
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin-bottom: 16px;
+            border: 2px solid var(--gray-700);
+        }
+
+        .backup-code-display::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .backup-code-display::-webkit-scrollbar-thumb {
+            background: var(--gray-600);
+            border-radius: 10px;
+        }
+
+        .backup-code-display::-webkit-scrollbar-track {
+            background: var(--gray-800);
+            border-radius: 10px;
+        }
+
+        .backup-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .backup-actions .btn {
+            flex: 1;
+            justify-content: center;
+            min-width: 120px;
+        }
+
+        .backup-info {
+            padding: 12px 16px;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: var(--gray-600);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .backup-info i {
+            color: var(--primary);
+            font-size: 20px;
+        }
+
         /* ===== MODAL ===== */
         .modal-overlay {
             display: none;
@@ -1089,6 +1148,8 @@
         .form-textarea {
             min-height: 100px;
             resize: vertical;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
         }
 
         /* ===== QUESTION EDITOR ===== */
@@ -1275,6 +1336,10 @@
                 min-width: 100%;
                 text-align: left;
             }
+
+            .backup-actions .btn {
+                min-width: 100%;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1329,6 +1394,16 @@
                         <button class="dropdown-menu-item" onclick="openRatingConfig(); closeDropdown();">
                             <i class="fas fa-sliders-h" style="color:var(--warning);"></i>
                             Configurar avaliações
+                        </button>
+                        <div class="dropdown-divider"></div>
+                        <!-- Backup Export/Import -->
+                        <button class="dropdown-menu-item" onclick="exportBackup(); closeDropdown();">
+                            <i class="fas fa-file-export" style="color:var(--success);"></i>
+                            Exportar backup completo
+                        </button>
+                        <button class="dropdown-menu-item" onclick="openImportBackup(); closeDropdown();">
+                            <i class="fas fa-file-import" style="color:var(--primary);"></i>
+                            Importar backup
                         </button>
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-menu-item" style="cursor:default;" onclick="event.stopPropagation();">
@@ -1445,7 +1520,69 @@
         </div>
     </div>
 
-    <!-- ===== MODAL IMPORTAÇÃO ===== -->
+    <!-- ===== MODAL BACKUP ===== -->
+    <div class="modal-overlay" id="backupModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="backupModalTitle">💾 Backup Completo</h2>
+                <button class="modal-close" onclick="closeModal('backupModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="backup-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="backupInfoText">Copie o código abaixo para fazer backup de todos os seus dados.</span>
+                </div>
+                <div id="backupContent">
+                    <textarea class="form-input form-textarea" id="backupTextarea" readonly style="font-family:'Courier New',monospace;font-size:13px;min-height:200px;"></textarea>
+                </div>
+                <div class="backup-actions">
+                    <button class="btn btn-primary" onclick="copyBackupCode()">
+                        <i class="fas fa-copy"></i> Copiar código
+                    </button>
+                    <button class="btn btn-success" onclick="downloadBackupFile()">
+                        <i class="fas fa-download"></i> Baixar arquivo
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('backupModal')">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL IMPORTAR BACKUP ===== -->
+    <div class="modal-overlay" id="importBackupModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">📥 Importar Backup</h2>
+                <button class="modal-close" onclick="closeModal('importBackupModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="backup-info">
+                    <i class="fas fa-exclamation-triangle" style="color:var(--warning);"></i>
+                    <span><strong>Atenção:</strong> Isso substituirá todos os dados atuais! Faça um backup antes de continuar.</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Cole o código de backup</label>
+                    <textarea class="form-input form-textarea" id="importBackupTextarea" placeholder="Cole aqui o código JSON do backup..." style="min-height:200px;"></textarea>
+                </div>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <button class="btn btn-outline" onclick="importBackupFromFile()" style="flex:1;">
+                        <i class="fas fa-file-upload"></i> Importar arquivo
+                    </button>
+                    <input type="file" id="backupFileInput" accept=".json" style="display:none;" onchange="handleBackupFile(event)">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('importBackupModal')">Cancelar</button>
+                <button class="btn btn-danger" onclick="processImportBackup()">
+                    <i class="fas fa-upload"></i> Importar Backup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL IMPORTAÇÃO QUIZ ===== -->
     <div class="modal-overlay" id="importModal">
         <div class="modal">
             <div class="modal-header">
@@ -1480,18 +1617,16 @@
         let editingQuizId = null;
 
         // ====== CONFIGURAÇÕES DE AVALIAÇÃO ======
-        // Agora os valores são em número de ACERTOS
         let ratingConfig = {
-            excelente: 3,    // mínimo de acertos para Excelente
-            muitoBom: 2,     // mínimo para Muito Bom
-            bom: 1,          // mínimo para Bom
-            regular: 0,      // mínimo para Regular (abaixo disso é Precisa Melhorar)
-            ruim: 0          // referência (não usado diretamente)
+            excelente: 3,
+            muitoBom: 2,
+            bom: 1,
+            regular: 0,
+            ruim: 0
         };
 
         // ====== SISTEMA DE AVALIAÇÃO ======
         function getRating(correctCount, totalQuestions) {
-            // Se não houver questões, retorna sem classificação
             if (totalQuestions === 0) {
                 return {
                     key: 'sem',
@@ -1502,7 +1637,6 @@
                 };
             }
 
-            // Ordenar do maior para o menor
             const ratings = [
                 { key: 'excelente', label: 'Excelente! 🏆', emoji: '🌟', class: 'rating-excelente', 
                   description: 'Performance extraordinária! Você é um verdadeiro expert!', min: ratingConfig.excelente },
@@ -1514,14 +1648,12 @@
                   description: 'Hora de revisar o conteúdo! Continue estudando!', min: ratingConfig.regular }
             ];
 
-            // Encontrar a primeira classificação que o usuário atingiu
             for (let r of ratings) {
                 if (correctCount >= r.min) {
                     return r;
                 }
             }
 
-            // Se não atingiu nenhuma (menos que regular)
             return {
                 key: 'ruim',
                 label: 'Precisa Melhorar 😅',
@@ -1624,9 +1756,145 @@
             return Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 6);
         }
 
+        // ====== BACKUP FUNCTIONS ======
+        function exportBackup() {
+            const data = {
+                version: '1.0',
+                exportedAt: new Date().toISOString(),
+                quizzes: quizzes,
+                ratingConfig: ratingConfig,
+                isShuffled: isShuffled,
+                totalQuizzes: quizzes.length,
+                totalQuestions: quizzes.reduce((sum, q) => sum + q.questions.length, 0)
+            };
+
+            const json = JSON.stringify(data, null, 2);
+            document.getElementById('backupTextarea').value = json;
+            document.getElementById('backupInfoText').textContent = 
+                `📊 Backup com ${data.totalQuizzes} quizzes e ${data.totalQuestions} questões. Exportado em ${new Date(data.exportedAt).toLocaleString()}`;
+            document.getElementById('backupModal').classList.add('active');
+            closeDropdown();
+        }
+
+        function copyBackupCode() {
+            const textarea = document.getElementById('backupTextarea');
+            textarea.select();
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                showToast('✅ Código copiado para a área de transferência!', 'success');
+            }).catch(() => {
+                document.execCommand('copy');
+                showToast('✅ Código copiado!', 'success');
+            });
+        }
+
+        function downloadBackupFile() {
+            const textarea = document.getElementById('backupTextarea');
+            const data = JSON.parse(textarea.value);
+            const blob = new Blob([textarea.value], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `quizflow_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📥 Backup baixado com sucesso!', 'success');
+        }
+
+        function openImportBackup() {
+            document.getElementById('importBackupTextarea').value = '';
+            document.getElementById('importBackupModal').classList.add('active');
+            closeDropdown();
+        }
+
+        function importBackupFromFile() {
+            document.getElementById('backupFileInput').click();
+        }
+
+        function handleBackupFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const content = e.target.result;
+                    JSON.parse(content); // Validar se é JSON válido
+                    document.getElementById('importBackupTextarea').value = content;
+                    showToast('📄 Arquivo carregado com sucesso!', 'success');
+                } catch (err) {
+                    showToast('⚠️ Arquivo inválido. Certifique-se de que é um JSON válido.', 'error');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // Resetar input
+        }
+
+        function processImportBackup() {
+            const input = document.getElementById('importBackupTextarea').value.trim();
+            if (!input) {
+                showToast('⚠️ Cole o código de backup ou selecione um arquivo', 'error');
+                return;
+            }
+
+            try {
+                const data = JSON.parse(input);
+                
+                // Validar estrutura do backup
+                if (!data.quizzes || !Array.isArray(data.quizzes)) {
+                    showToast('⚠️ Backup inválido: "quizzes" não encontrado ou não é um array', 'error');
+                    return;
+                }
+
+                if (!data.ratingConfig) {
+                    showToast('⚠️ Backup inválido: "ratingConfig" não encontrado', 'error');
+                    return;
+                }
+
+                // Confirmar importação
+                const totalQuizzes = data.quizzes.length;
+                const totalQuestions = data.quizzes.reduce((sum, q) => sum + (q.questions ? q.questions.length : 0), 0);
+                
+                if (!confirm(`⚠️ Isso substituirá TODOS os dados atuais!\n\n📊 Novo backup contém:\n• ${totalQuizzes} quizzes\n• ${totalQuestions} questões\n\nDeseja continuar?`)) {
+                    return;
+                }
+
+                // Substituir dados
+                quizzes = data.quizzes;
+                ratingConfig = data.ratingConfig;
+                if (data.isShuffled !== undefined) {
+                    isShuffled = data.isShuffled;
+                    document.getElementById('shuffleToggle').checked = isShuffled;
+                }
+
+                // Resetar estado
+                resetQuizState();
+                saveData();
+                
+                // Selecionar o primeiro quiz se existir
+                if (quizzes.length > 0) {
+                    currentQuizId = quizzes[0].id;
+                    renderQuiz(currentQuizId);
+                } else {
+                    currentQuizId = null;
+                    document.getElementById('contentArea').innerHTML = `
+                        <div style="text-align:center;padding:60px 20px;color:var(--gray-400);">
+                            <div style="font-size:64px;margin-bottom:16px;">📭</div>
+                            <h3 style="color:var(--gray-700);">Nenhum quiz no backup</h3>
+                            <p>O backup foi importado mas não contém quizzes</p>
+                        </div>
+                    `;
+                }
+
+                closeModal('importBackupModal');
+                showToast(`✅ Backup importado com sucesso! ${totalQuizzes} quizzes carregados.`, 'success');
+                
+            } catch (e) {
+                showToast('⚠️ Erro ao importar backup: ' + e.message, 'error');
+            }
+        }
+
         // ====== RATING CONFIG ======
         function openRatingConfig() {
-            // Atualizar total de questões
             const quiz = quizzes.find(q => q.id === currentQuizId);
             const total = quiz ? quiz.questions.length : 0;
             document.getElementById('configTotalQuestions').textContent = total;
@@ -1650,16 +1918,12 @@
                 const prevValue = index > 0 ? ratingConfig[ratings[index - 1].key] : totalQuestions;
                 const nextValue = index < ratings.length - 1 ? ratingConfig[ratings[index + 1].key] : 0;
                 
-                // Definir range baseado na posição
                 let range = '';
                 if (index === 0) {
-                    // Excelente: value até totalQuestions
                     range = `${value} - ${totalQuestions} acertos`;
                 } else if (index === ratings.length - 1) {
-                    // Ruim: 0 até value
                     range = `0 - ${value} acertos`;
                 } else {
-                    // Meio: value até (anterior - 1)
                     range = `${value} - ${prevValue - 1} acertos`;
                 }
 
@@ -1687,9 +1951,7 @@
             const ratings = ['excelente', 'muitoBom', 'bom', 'regular', 'ruim'];
             const index = ratings.indexOf(key);
             
-            // Validar lógica: excelente > muitoBom > bom > regular > ruim
             if (index === 0) {
-                // Excelente: deve ser maior que muitoBom
                 const next = parseInt(document.getElementById('rating_muitoBom').value) || 0;
                 if (value <= next) {
                     input.value = Math.min(next + 1, totalQuestions);
@@ -1702,7 +1964,6 @@
                     return;
                 }
             } else if (index === ratings.length - 1) {
-                // Ruim: deve ser menor que regular
                 const prev = parseInt(document.getElementById('rating_regular').value) || 0;
                 if (value >= prev) {
                     input.value = Math.max(prev - 1, 0);
@@ -1746,7 +2007,6 @@
                 newConfig[key] = value;
             });
             
-            // Validar ordem
             if (newConfig.excelente <= newConfig.muitoBom) {
                 showToast('⚠️ Excelente deve ter mais acertos que Muito Bom', 'error');
                 valid = false;
@@ -2332,7 +2592,7 @@
             closeDropdown();
         }
 
-        // ====== EXPORT / IMPORT ======
+        // ====== EXPORT / IMPORT QUIZ ======
         function exportQuiz() {
             if (!currentQuizId) {
                 showToast('⚠️ Selecione um quiz para exportar', 'error');
