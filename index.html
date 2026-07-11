@@ -947,14 +947,6 @@
             border-radius: var(--radius-full);
         }
 
-        .rating-config-item .rating-current {
-            font-size: 13px;
-            color: var(--gray-600);
-            font-weight: 600;
-            min-width: 30px;
-            text-align: center;
-        }
-
         .rating-info-quiz {
             padding: 12px 16px;
             background: var(--primary-light);
@@ -1031,6 +1023,105 @@
             font-size: 20px;
         }
 
+        /* ===== PASTE QUESTIONS MODAL ===== */
+        .paste-questions-area {
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 2px dashed var(--gray-300);
+            transition: var(--transition);
+        }
+
+        .paste-questions-area:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .paste-questions-area textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            resize: vertical;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .paste-questions-area textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        .paste-questions-area .paste-help {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .paste-questions-area .paste-help kbd {
+            background: var(--gray-200);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .paste-preview {
+            background: white;
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-top: 12px;
+            border: 1px solid var(--gray-200);
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .paste-preview.show {
+            display: block;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .paste-preview .preview-item {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .paste-preview .preview-item:last-child {
+            border-bottom: none;
+        }
+
+        .paste-preview .preview-item .preview-number {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 30px;
+        }
+
+        .paste-preview .preview-item .preview-status {
+            font-size: 12px;
+            color: var(--success);
+            margin-left: auto;
+        }
+
+        .paste-preview .preview-item .preview-status.error {
+            color: var(--danger);
+        }
+
         /* ===== MODAL ===== */
         .modal-overlay {
             display: none;
@@ -1058,7 +1149,7 @@
             background: white;
             border-radius: var(--radius-lg);
             padding: 32px;
-            max-width: 700px;
+            max-width: 750px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -1396,7 +1487,6 @@
                             Configurar avaliações
                         </button>
                         <div class="dropdown-divider"></div>
-                        <!-- Backup Export/Import -->
                         <button class="dropdown-menu-item" onclick="exportBackup(); closeDropdown();">
                             <i class="fas fa-file-export" style="color:var(--success);"></i>
                             Exportar backup completo
@@ -1480,6 +1570,28 @@
                     </label>
                     <span style="font-size:12px;color:var(--gray-500);">As opções das questões serão exibidas em ordem aleatória</span>
                 </div>
+                
+                <!-- Área para colar questões -->
+                <div class="paste-questions-area">
+                    <label class="form-label" style="margin-bottom:8px;">
+                        <i class="fas fa-paste" style="color:var(--primary);"></i> Colar questões em massa
+                    </label>
+                    <textarea id="pasteQuestionsInput" placeholder="Cole aqui as questões no formato:&#10;1. Qual é a capital do Brasil?&#10;A) São Paulo&#10;B) Rio de Janeiro&#10;C) Brasília&#10;D) Salvador&#10;Resposta: C&#10;&#10;2. Quanto é 2 + 2?&#10;A) 3&#10;B) 4&#10;C) 5&#10;D) 6&#10;Resposta: B"></textarea>
+                    <div class="paste-help">
+                        <span><i class="fas fa-info-circle"></i> Formatos suportados:</span>
+                        <kbd>1. Pergunta</kbd>
+                        <kbd>A) Opção 1</kbd>
+                        <kbd>B) Opção 2</kbd>
+                        <kbd>Resposta: A</kbd>
+                        <span style="margin-left:auto;">
+                            <button class="btn btn-primary btn-xs" onclick="parseAndAddQuestions()">
+                                <i class="fas fa-magic"></i> Identificar e Adicionar
+                            </button>
+                        </span>
+                    </div>
+                    <div id="pastePreview" class="paste-preview"></div>
+                </div>
+
                 <div id="questionsEditor"></div>
                 <button class="btn btn-outline btn-block" onclick="addQuestionEditor()">
                     <i class="fas fa-plus"></i> Adicionar Questão
@@ -1675,6 +1787,117 @@
             return ratings[key] || ratings.regular;
         }
 
+        // ====== PARSER DE QUESTÕES ======
+        function parseQuestionsFromText(text) {
+            const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+            const questions = [];
+            let currentQuestion = null;
+            let currentOptions = [];
+            let currentCorrect = null;
+
+            // Padrões para identificar linhas
+            const questionPattern = /^(\d+)[\.\)]\s*(.+)/;
+            const optionPattern = /^([A-Da-d])[\.\)]\s*(.+)/;
+            const answerPattern = /^resposta:\s*([A-Da-d])/i;
+
+            for (let line of lines) {
+                // Verificar se é uma resposta
+                const answerMatch = line.match(answerPattern);
+                if (answerMatch) {
+                    if (currentQuestion) {
+                        currentCorrect = answerMatch[1].toUpperCase();
+                    }
+                    continue;
+                }
+
+                // Verificar se é uma questão
+                const questionMatch = line.match(questionPattern);
+                if (questionMatch) {
+                    // Salvar questão anterior se existir
+                    if (currentQuestion && currentOptions.length > 0) {
+                        questions.push({
+                            text: currentQuestion,
+                            options: currentOptions,
+                            correct: currentCorrect ? currentOptions.indexOf(currentCorrect) : 0
+                        });
+                    }
+                    currentQuestion = questionMatch[2];
+                    currentOptions = [];
+                    currentCorrect = null;
+                    continue;
+                }
+
+                // Verificar se é uma opção
+                const optionMatch = line.match(optionPattern);
+                if (optionMatch) {
+                    const letter = optionMatch[1].toUpperCase();
+                    const text = optionMatch[2];
+                    currentOptions.push({ letter, text });
+                    continue;
+                }
+
+                // Se não encaixou em nenhum padrão e tem uma questão atual, adicionar como continuação
+                if (currentQuestion) {
+                    currentQuestion += ' ' + line;
+                }
+            }
+
+            // Salvar última questão
+            if (currentQuestion && currentOptions.length > 0) {
+                questions.push({
+                    text: currentQuestion,
+                    options: currentOptions.map(o => o.text),
+                    correct: currentCorrect ? currentOptions.findIndex(o => o.letter === currentCorrect) : 0
+                });
+            }
+
+            return questions;
+        }
+
+        function parseAndAddQuestions() {
+            const textarea = document.getElementById('pasteQuestionsInput');
+            const text = textarea.value.trim();
+            
+            if (!text) {
+                showToast('⚠️ Cole as questões primeiro!', 'warning');
+                return;
+            }
+
+            const parsedQuestions = parseQuestionsFromText(text);
+            
+            if (parsedQuestions.length === 0) {
+                showToast('⚠️ Nenhuma questão identificada. Verifique o formato.', 'error');
+                return;
+            }
+
+            // Mostrar preview
+            const preview = document.getElementById('pastePreview');
+            preview.innerHTML = parsedQuestions.map((q, i) => `
+                <div class="preview-item">
+                    <span class="preview-number">#${i + 1}</span>
+                    <span>${q.text.substring(0, 50)}${q.text.length > 50 ? '...' : ''}</span>
+                    <span class="preview-status">
+                        <i class="fas fa-check-circle"></i> ${q.options.length} opções
+                    </span>
+                </div>
+            `).join('');
+            preview.classList.add('show');
+
+            // Adicionar questões ao editor
+            parsedQuestions.forEach(q => {
+                addQuestionEditor({
+                    text: q.text,
+                    options: q.options,
+                    correct: q.correct
+                });
+            });
+
+            // Limpar textarea
+            textarea.value = '';
+            
+            showToast(`✅ ${parsedQuestions.length} questões identificadas e adicionadas!`, 'success');
+        }
+
         // ====== INIT ======
         function init() {
             loadData();
@@ -1818,7 +2041,7 @@
             reader.onload = function(e) {
                 try {
                     const content = e.target.result;
-                    JSON.parse(content); // Validar se é JSON válido
+                    JSON.parse(content);
                     document.getElementById('importBackupTextarea').value = content;
                     showToast('📄 Arquivo carregado com sucesso!', 'success');
                 } catch (err) {
@@ -1826,7 +2049,7 @@
                 }
             };
             reader.readAsText(file);
-            event.target.value = ''; // Resetar input
+            event.target.value = '';
         }
 
         function processImportBackup() {
@@ -1839,7 +2062,6 @@
             try {
                 const data = JSON.parse(input);
                 
-                // Validar estrutura do backup
                 if (!data.quizzes || !Array.isArray(data.quizzes)) {
                     showToast('⚠️ Backup inválido: "quizzes" não encontrado ou não é um array', 'error');
                     return;
@@ -1850,7 +2072,6 @@
                     return;
                 }
 
-                // Confirmar importação
                 const totalQuizzes = data.quizzes.length;
                 const totalQuestions = data.quizzes.reduce((sum, q) => sum + (q.questions ? q.questions.length : 0), 0);
                 
@@ -1858,7 +2079,6 @@
                     return;
                 }
 
-                // Substituir dados
                 quizzes = data.quizzes;
                 ratingConfig = data.ratingConfig;
                 if (data.isShuffled !== undefined) {
@@ -1866,11 +2086,9 @@
                     document.getElementById('shuffleToggle').checked = isShuffled;
                 }
 
-                // Resetar estado
                 resetQuizState();
                 saveData();
                 
-                // Selecionar o primeiro quiz se existir
                 if (quizzes.length > 0) {
                     currentQuizId = quizzes[0].id;
                     renderQuiz(currentQuizId);
@@ -2424,6 +2642,8 @@
             document.getElementById('questionsEditor').innerHTML = '';
             document.getElementById('modalShuffleToggle').checked = isShuffled;
             editingQuizId = null;
+            document.getElementById('pasteQuestionsInput').value = '';
+            document.getElementById('pastePreview').classList.remove('show');
             document.getElementById('quizModal').classList.add('active');
             addQuestionEditor();
             closeDropdown();
@@ -2438,6 +2658,8 @@
             document.getElementById('questionsEditor').innerHTML = '';
             document.getElementById('modalShuffleToggle').checked = isShuffled;
             editingQuizId = quizId;
+            document.getElementById('pasteQuestionsInput').value = '';
+            document.getElementById('pastePreview').classList.remove('show');
 
             quiz.questions.forEach(q => {
                 addQuestionEditor(q);
