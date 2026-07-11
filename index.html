@@ -2,15 +2,17 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>QuizFlow - Criador de Quizzes</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== TODOS OS ESTILOS ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
@@ -32,9 +34,9 @@
             --gray-800: #343A58;
             --gray-900: #171B3D;
             --shadow-sm: 0 2px 8px rgba(108, 99, 255, 0.08);
-            --shadow-md: 0 8px 30px rgba(108, 99, 255, 0.12);
-            --shadow-lg: 0 20px 60px rgba(108, 99, 255, 0.15);
-            --shadow-xl: 0 30px 80px rgba(108, 99, 255, 0.2);
+            --shadow-md: 0 4px 16px rgba(108, 99, 255, 0.12);
+            --shadow-lg: 0 8px 32px rgba(108, 99, 255, 0.15);
+            --shadow-xl: 0 12px 48px rgba(108, 99, 255, 0.2);
             --radius: 16px;
             --radius-lg: 24px;
             --radius-full: 9999px;
@@ -47,11 +49,395 @@
             min-height: 100vh;
             color: var(--gray-900);
             padding: 0;
+            overflow-x: hidden;
         }
 
+        /* ===== LOGIN SCREEN ===== */
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--primary-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            min-height: 100vh;
+        }
+
+        .login-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+
+        .login-box {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 40px 32px;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: var(--shadow-xl);
+            animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 95vh;
+            overflow-y: auto;
+        }
+
+        .login-box::-webkit-scrollbar {
+            width: 4px;
+        }
+        .login-box::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 10px;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .login-box .login-logo {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .login-box .login-logo .logo-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
+            margin-bottom: 12px;
+        }
+
+        .login-box .login-logo h1 {
+            font-size: 28px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-box .login-logo p {
+            color: var(--gray-500);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* ===== TABS ===== */
+        .login-tabs {
+            display: flex;
+            background: var(--gray-100);
+            border-radius: var(--radius);
+            padding: 4px;
+            margin-bottom: 24px;
+            gap: 4px;
+        }
+
+        .login-tabs .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            background: transparent;
+            color: var(--gray-600);
+        }
+
+        .login-tabs .tab-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .login-tabs .tab-btn:hover:not(.active) {
+            color: var(--gray-900);
+        }
+
+        /* ===== LOGIN FORM ===== */
+        .login-form {
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 16px;
+        }
+
+        .login-form .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--gray-700);
+            font-size: 14px;
+        }
+
+        .login-form .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+            background: white;
+            -webkit-appearance: none;
+        }
+
+        .login-form .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        .login-form .form-group input.error {
+            border-color: var(--danger);
+        }
+
+        .login-form .form-group input.error:focus {
+            box-shadow: 0 0 0 4px rgba(255, 23, 68, 0.2);
+        }
+
+        .login-form .form-group .input-wrapper {
+            position: relative;
+        }
+
+        .login-form .form-group .input-wrapper .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 8px;
+        }
+
+        .login-form .form-group .input-wrapper .toggle-password:hover {
+            color: var(--gray-600);
+        }
+
+        .login-form .form-error {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .login-form .form-error.show {
+            display: block;
+        }
+
+        .login-form .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+
+        .login-form .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .login-form .remember-me label {
+            font-size: 14px;
+            color: var(--gray-600);
+            cursor: pointer;
+        }
+
+        .login-form .btn-login {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--primary-gradient);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
+        }
+
+        .login-form .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(108, 99, 255, 0.4);
+        }
+
+        .login-form .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .login-form .btn-login .btn-icon {
+            margin-right: 8px;
+        }
+
+        /* ===== CREATE ACCOUNT FORM ===== */
+        .create-account-form {
+            display: none;
+        }
+
+        .create-account-form.active {
+            display: block;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .create-account-form .form-group {
+            margin-bottom: 16px;
+        }
+
+        .create-account-form .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--gray-700);
+            font-size: 14px;
+        }
+
+        .create-account-form .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+            background: white;
+            -webkit-appearance: none;
+        }
+
+        .create-account-form .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        .create-account-form .form-group input.error {
+            border-color: var(--danger);
+        }
+
+        .create-account-form .form-group input.error:focus {
+            box-shadow: 0 0 0 4px rgba(255, 23, 68, 0.2);
+        }
+
+        .create-account-form .form-error {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .create-account-form .form-error.show {
+            display: block;
+        }
+
+        .create-account-form .password-strength {
+            height: 4px;
+            background: var(--gray-200);
+            border-radius: var(--radius-full);
+            margin-top: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .create-account-form .password-strength .strength-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: var(--radius-full);
+            transition: width 0.4s ease, background 0.4s ease;
+        }
+
+        .create-account-form .password-strength-text {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+
+        .create-account-form .btn-create {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--success);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0, 200, 83, 0.3);
+        }
+
+        .create-account-form .btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 200, 83, 0.4);
+        }
+
+        .create-account-form .btn-create:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .create-account-form .btn-create .btn-icon {
+            margin-right: 8px;
+        }
+
+        .create-account-form .create-success {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .create-account-form .create-success.show {
+            display: block;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .create-account-form .create-success .success-icon {
+            font-size: 48px;
+            color: var(--success);
+            margin-bottom: 12px;
+        }
+
+        .create-account-form .create-success h3 {
+            font-size: 20px;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .create-account-form .create-success p {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+
+        /* ===== TOP BAR ===== */
         .top-bar {
             background: white;
-            padding: 16px 32px;
+            padding: 12px 16px;
             box-shadow: var(--shadow-sm);
             position: sticky;
             top: 0;
@@ -66,29 +452,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 20px;
+            gap: 12px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 22px;
+            gap: 10px;
+            font-size: 20px;
             font-weight: 800;
             color: var(--gray-900);
             text-decoration: none;
+            flex-shrink: 0;
+            cursor: pointer;
         }
 
         .logo-icon {
-            width: 42px;
-            height: 42px;
+            width: 36px;
+            height: 36px;
             background: var(--primary-gradient);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 20px;
+            font-size: 16px;
             box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
         }
 
@@ -101,24 +489,59 @@
         .top-bar-right {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 10px 4px 4px;
+            border-radius: var(--radius-full);
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+        }
+
+        .user-info .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .user-info .username {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--gray-700);
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 8px 14px;
             border: none;
             border-radius: var(--radius);
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             text-decoration: none;
             position: relative;
             overflow: hidden;
+            white-space: nowrap;
         }
 
         .btn-primary {
@@ -141,22 +564,10 @@
         .btn-outline:hover {
             background: var(--gray-50);
             border-color: var(--gray-300);
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #00C853, #00A844);
-            color: white;
-            box-shadow: 0 4px 16px rgba(0, 200, 83, 0.3);
-        }
-
-        .btn-success:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 28px rgba(0, 200, 83, 0.4);
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, #FF1744, #D50000);
+            background: var(--danger);
             color: white;
             box-shadow: 0 4px 16px rgba(255, 23, 68, 0.3);
         }
@@ -166,20 +577,31 @@
             box-shadow: 0 8px 28px rgba(255, 23, 68, 0.4);
         }
 
+        .btn-success {
+            background: var(--success);
+            color: white;
+            box-shadow: 0 4px 16px rgba(0, 200, 83, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 28px rgba(0, 200, 83, 0.4);
+        }
+
         .btn-sm {
-            padding: 6px 14px;
-            font-size: 13px;
+            padding: 6px 12px;
+            font-size: 12px;
         }
 
         .btn-xs {
-            padding: 4px 10px;
-            font-size: 12px;
+            padding: 4px 8px;
+            font-size: 11px;
             border-radius: 8px;
         }
 
         .btn-icon {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             padding: 0;
             display: flex;
             align-items: center;
@@ -210,6 +632,7 @@
             transform: none !important;
         }
 
+        /* ===== DROPDOWN ===== */
         .dropdown {
             position: relative;
             display: inline-block;
@@ -222,7 +645,7 @@
             background: white;
             border-radius: var(--radius);
             box-shadow: var(--shadow-lg);
-            min-width: 260px;
+            min-width: 220px;
             padding: 8px;
             opacity: 0;
             visibility: hidden;
@@ -230,6 +653,8 @@
             transition: var(--transition);
             border: 1px solid var(--gray-200);
             z-index: 200;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         .dropdown-menu.open {
@@ -242,12 +667,12 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 10px 16px;
+            padding: 10px 14px;
             border-radius: 8px;
             cursor: pointer;
             transition: var(--transition);
             font-weight: 500;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--gray-700);
             border: none;
             background: transparent;
@@ -271,13 +696,13 @@
         .dropdown-divider {
             height: 1px;
             background: var(--gray-200);
-            margin: 6px 12px;
+            margin: 4px 12px;
         }
 
         .toggle-switch {
             position: relative;
-            width: 42px;
-            height: 24px;
+            width: 40px;
+            height: 22px;
             flex-shrink: 0;
         }
 
@@ -302,8 +727,8 @@
         .toggle-slider:before {
             content: "";
             position: absolute;
-            height: 18px;
-            width: 18px;
+            height: 16px;
+            width: 16px;
             left: 3px;
             bottom: 3px;
             background: white;
@@ -324,229 +749,294 @@
             flex: 1;
         }
 
+        /* ===== MAIN LAYOUT ===== */
         .main-layout {
-            max-width: 1440px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 24px 32px;
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 24px;
+            padding: 16px;
         }
 
-        .sidebar {
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
-            padding: 24px;
-            height: fit-content;
-            position: sticky;
-            top: 90px;
-            border: 1px solid var(--gray-200);
+        /* ===== HOME SCREEN ===== */
+        .home-screen {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .sidebar-header {
+        .home-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 16px 0;
         }
 
-        .sidebar-title {
-            font-size: 12px;
+        .home-header-left h1 {
+            font-size: 24px;
             font-weight: 700;
-            color: var(--gray-500);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .sidebar-count {
-            font-size: 12px;
-            color: var(--gray-500);
-            background: var(--gray-100);
-            padding: 2px 10px;
-            border-radius: var(--radius-full);
-        }
-
-        .quiz-list {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .quiz-list::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .quiz-list::-webkit-scrollbar-thumb {
-            background: var(--gray-300);
-            border-radius: 10px;
-        }
-
-        .quiz-item {
-            padding: 12px 16px;
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 2px solid transparent;
-            position: relative;
-        }
-
-        .quiz-item:hover {
-            background: var(--gray-50);
-            transform: translateX(4px);
-        }
-
-        .quiz-item.active {
-            background: var(--primary-light);
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(108, 99, 255, 0.1);
-        }
-
-        .quiz-item.active::before {
-            content: '';
-            position: absolute;
-            left: -2px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 30px;
-            background: var(--primary);
-            border-radius: 0 4px 4px 0;
-        }
-
-        .quiz-item-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            flex: 1;
-        }
-
-        .quiz-item-name {
-            font-weight: 600;
-            font-size: 14px;
             color: var(--gray-900);
         }
 
-        .quiz-item-meta {
-            font-size: 12px;
+        .home-header-left p {
             color: var(--gray-500);
+            font-size: 14px;
+            margin-top: 2px;
         }
 
-        .quiz-item-badge {
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 2px 10px;
-            border-radius: var(--radius-full);
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .empty-sidebar {
-            text-align: center;
-            padding: 30px 10px;
-            color: var(--gray-400);
-        }
-
-        .empty-sidebar-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-            opacity: 0.5;
-        }
-
-        .content {
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
-            padding: 32px;
-            min-height: 500px;
-            border: 1px solid var(--gray-200);
-            transition: var(--transition);
-        }
-
-        .quiz-header {
+        .home-header-right {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 28px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--gray-100);
+            gap: 10px;
             flex-wrap: wrap;
+        }
+
+        .btn-create-quiz {
+            padding: 12px 24px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-create-quiz:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 28px rgba(108, 99, 255, 0.4);
+        }
+
+        /* ===== QUIZ CARDS GRID ===== */
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 16px;
         }
 
-        .quiz-header-left {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+        .quiz-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            box-shadow: var(--shadow-sm);
         }
 
-        .quiz-header-left h2 {
-            font-size: 26px;
+        .quiz-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .quiz-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .quiz-card .card-title {
+            font-size: 18px;
             font-weight: 700;
             color: var(--gray-900);
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            flex: 1;
+            margin-right: 10px;
         }
 
-        .quiz-header-left p {
-            color: var(--gray-500);
+        .quiz-card .card-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .quiz-card .card-actions .btn-icon-sm {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: var(--gray-400);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 14px;
         }
 
-        .shuffle-controls {
+        .quiz-card .card-actions .btn-icon-sm:hover {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .quiz-card .card-actions .btn-icon-sm.danger:hover {
+            background: #FFEBEE;
+            color: var(--danger);
+        }
+
+        .quiz-card .card-info {
+            display: flex;
+            gap: 16px;
+            color: var(--gray-500);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .quiz-card .card-info span {
             display: flex;
             align-items: center;
+            gap: 4px;
+        }
+
+        .quiz-card .card-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--primary-light);
+            color: var(--primary);
+            margin-top: 8px;
+        }
+
+        .quiz-card .card-footer {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--gray-100);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quiz-card .card-footer .card-shuffle {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .quiz-card .card-footer .card-shuffle .active {
+            color: var(--warning);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-400);
+            grid-column: 1/-1;
+        }
+
+        .empty-state .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        /* ===== QUIZ VIEW ===== */
+        .quiz-view {
+            display: none;
+            animation: fadeSlide 0.4s ease;
+        }
+
+        .quiz-view.active {
+            display: block;
+        }
+
+        .quiz-view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--gray-100);
+            flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 24px;
-            padding: 12px 18px;
-            background: var(--gray-50);
+        }
+
+        .quiz-view-header .back-btn {
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+            padding: 8px 12px;
             border-radius: var(--radius);
-            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+
+        .quiz-view-header .back-btn:hover {
+            background: var(--gray-100);
+        }
+
+        .quiz-view-header .quiz-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        .shuffle-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 14px;
+        .quiz-view-header .quiz-title .badge {
+            font-size: 11px;
+            padding: 2px 10px;
+            border-radius: var(--radius-full);
             background: var(--warning);
             color: var(--gray-900);
-            border-radius: var(--radius-full);
-            font-size: 12px;
-            font-weight: 700;
+            font-weight: 600;
         }
 
-        .shuffle-badge.inactive {
+        .quiz-view-header .quiz-title .badge.inactive {
             background: var(--gray-300);
             color: var(--gray-600);
         }
 
-        .shuffle-status {
-            font-size: 13px;
-            color: var(--gray-600);
-            flex: 1;
+        .quiz-view-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
+        /* ===== QUESTION CARD ===== */
         .question-card {
             background: var(--gray-50);
             border-radius: var(--radius);
-            padding: 24px;
-            margin-bottom: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
             transition: var(--transition);
             border: 2px solid transparent;
             animation: fadeSlide 0.4s ease;
         }
 
-        @keyframes fadeSlide {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+        @media (min-width: 768px) {
+            .question-card {
+                padding: 24px;
+                margin-bottom: 16px;
+            }
         }
 
         .question-card.answered-correct {
@@ -560,33 +1050,46 @@
         }
 
         .question-card .question-number {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--gray-400);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .question-card .question-text {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             color: var(--gray-900);
             line-height: 1.5;
         }
 
+        @media (min-width: 768px) {
+            .question-card .question-text {
+                font-size: 18px;
+                margin-bottom: 16px;
+            }
+        }
+
         .options-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         .option-item {
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 14px 18px;
+            gap: 10px;
+            padding: 10px 14px;
             background: white;
             border-radius: var(--radius);
             border: 2px solid var(--gray-200);
@@ -607,15 +1110,15 @@
         }
 
         .option-item .option-letter {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: var(--gray-100);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--gray-600);
             flex-shrink: 0;
             transition: var(--transition);
@@ -625,7 +1128,7 @@
             font-weight: 500;
             color: var(--gray-800);
             flex: 1;
-            font-size: 15px;
+            font-size: 13px;
         }
 
         .option-item.selected {
@@ -668,7 +1171,7 @@
         }
 
         .option-item .result-icon {
-            font-size: 20px;
+            font-size: 16px;
             animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
@@ -679,12 +1182,13 @@
         }
 
         .answer-feedback {
-            margin-top: 14px;
-            padding: 14px 18px;
+            margin-top: 10px;
+            padding: 10px 14px;
             border-radius: var(--radius);
             font-weight: 600;
             display: none;
             animation: slideDown 0.4s ease;
+            font-size: 13px;
         }
 
         @keyframes slideDown {
@@ -710,9 +1214,9 @@
 
         .quiz-actions {
             display: flex;
-            gap: 12px;
-            margin-top: 24px;
-            padding-top: 20px;
+            gap: 10px;
+            margin-top: 16px;
+            padding-top: 16px;
             border-top: 2px solid var(--gray-100);
             flex-wrap: wrap;
             align-items: center;
@@ -722,15 +1226,16 @@
             flex: 1;
             font-weight: 600;
             color: var(--gray-600);
-            font-size: 14px;
+            font-size: 13px;
+            min-width: 100%;
         }
 
         .progress-bar-container {
             width: 100%;
-            height: 6px;
+            height: 4px;
             background: var(--gray-200);
             border-radius: var(--radius-full);
-            margin-top: 8px;
+            margin-top: 6px;
             overflow: hidden;
         }
 
@@ -741,6 +1246,25 @@
             transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
+        .shuffle-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding: 10px 14px;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-200);
+            flex-wrap: wrap;
+        }
+
+        .shuffle-controls .shuffle-status {
+            font-size: 13px;
+            color: var(--gray-600);
+            flex: 1;
+        }
+
+        /* ===== RESULTS ===== */
         .results-container {
             text-align: center;
             padding: 20px 0;
@@ -748,13 +1272,19 @@
         }
 
         .results-emoji {
-            font-size: 80px;
-            margin-bottom: 12px;
+            font-size: 60px;
+            margin-bottom: 8px;
             animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
+        @media (min-width: 768px) {
+            .results-emoji {
+                font-size: 80px;
+            }
+        }
+
         .results-score {
-            font-size: 72px;
+            font-size: 48px;
             font-weight: 800;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
@@ -762,57 +1292,63 @@
             line-height: 1;
         }
 
+        @media (min-width: 768px) {
+            .results-score {
+                font-size: 72px;
+            }
+        }
+
         .results-label {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--gray-600);
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .results-rating {
             display: inline-block;
-            padding: 8px 24px;
+            padding: 6px 18px;
             border-radius: var(--radius-full);
             font-weight: 700;
-            font-size: 18px;
-            margin-top: 12px;
+            font-size: 15px;
+            margin-top: 10px;
         }
 
         .results-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            max-width: 480px;
-            margin: 30px auto;
+            gap: 12px;
+            max-width: 400px;
+            margin: 20px auto;
         }
 
         .results-stat {
             background: var(--gray-50);
-            padding: 20px;
+            padding: 14px;
             border-radius: var(--radius);
             border: 1px solid var(--gray-200);
         }
 
         .results-stat-value {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 700;
         }
 
         .results-stat-label {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--gray-500);
-            margin-top: 4px;
+            margin-top: 2px;
             font-weight: 500;
         }
 
         .results-revision {
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: left;
         }
 
         .results-revision h4 {
-            font-size: 16px;
+            font-size: 15px;
             color: var(--gray-700);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .rating-excelente {
@@ -841,113 +1377,7 @@
             box-shadow: 0 4px 16px rgba(255, 23, 68, 0.3);
         }
 
-        .rating-config-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 12px 16px;
-            background: var(--gray-50);
-            border-radius: var(--radius);
-            margin-bottom: 10px;
-            border: 1px solid var(--gray-200);
-            flex-wrap: wrap;
-        }
-
-        .rating-config-item .rating-icon {
-            font-size: 28px;
-            width: 40px;
-            text-align: center;
-        }
-
-        .rating-config-item .rating-info {
-            flex: 1;
-            min-width: 120px;
-        }
-
-        .rating-config-item .rating-info .rating-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .rating-config-item .rating-info .rating-desc {
-            font-size: 12px;
-            color: var(--gray-500);
-        }
-
-        .rating-config-item input[type="number"] {
-            width: 70px;
-            padding: 6px 10px;
-            border: 2px solid var(--gray-200);
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            text-align: center;
-            transition: var(--transition);
-        }
-
-        .rating-config-item input[type="number"]:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px var(--primary-light);
-        }
-
-        .rating-config-item .rating-range {
-            font-size: 12px;
-            color: var(--gray-500);
-            min-width: 80px;
-            text-align: center;
-            background: var(--gray-100);
-            padding: 2px 10px;
-            border-radius: var(--radius-full);
-        }
-
-        .rating-info-quiz {
-            padding: 12px 16px;
-            background: var(--primary-light);
-            border-radius: var(--radius);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            color: var(--gray-700);
-        }
-
-        .rating-info-quiz i {
-            font-size: 20px;
-            color: var(--primary);
-        }
-
-        .backup-info {
-            padding: 12px 16px;
-            background: var(--gray-50);
-            border-radius: var(--radius);
-            margin-bottom: 16px;
-            font-size: 14px;
-            color: var(--gray-600);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .backup-info i {
-            color: var(--primary);
-            font-size: 20px;
-        }
-
-        .backup-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .backup-actions .btn {
-            flex: 1;
-            justify-content: center;
-            min-width: 120px;
-        }
-
+        /* ===== MODAL ===== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -957,7 +1387,7 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            padding: 20px;
+            padding: 16px;
             animation: fadeIn 0.3s ease;
         }
 
@@ -973,8 +1403,8 @@
         .modal {
             background: white;
             border-radius: var(--radius-lg);
-            padding: 32px;
-            max-width: 750px;
+            padding: 24px;
+            max-width: 700px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -982,31 +1412,38 @@
             animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        @media (min-width: 768px) {
+            .modal {
+                padding: 32px;
+            }
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .modal-title {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--gray-900);
         }
 
+        @media (min-width: 768px) {
+            .modal-title {
+                font-size: 24px;
+            }
+        }
+
         .modal-close {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border: none;
             background: var(--gray-100);
             border-radius: 50%;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
@@ -1021,36 +1458,37 @@
         }
 
         .modal-body {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .modal-footer {
             display: flex;
             justify-content: flex-end;
-            gap: 12px;
-            padding-top: 20px;
+            gap: 10px;
+            padding-top: 16px;
             border-top: 2px solid var(--gray-100);
+            flex-wrap: wrap;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .form-label {
             display: block;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             color: var(--gray-700);
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .form-input {
             width: 100%;
-            padding: 12px 16px;
+            padding: 10px 14px;
             border: 2px solid var(--gray-200);
             border-radius: var(--radius);
             font-family: 'Inter', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             transition: var(--transition);
             background: white;
         }
@@ -1061,20 +1499,40 @@
             box-shadow: 0 0 0 4px var(--primary-light);
         }
 
-        .form-textarea {
-            min-height: 100px;
-            resize: vertical;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
+        .form-input.error {
+            border-color: var(--danger);
         }
 
+        .form-input.error:focus {
+            box-shadow: 0 0 0 4px rgba(255, 23, 68, 0.2);
+        }
+
+        .form-error {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        /* ===== QUESTION EDITOR ===== */
         .question-editor {
             background: var(--gray-50);
             border-radius: var(--radius);
-            padding: 20px;
-            margin-bottom: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
             border: 2px solid transparent;
             transition: var(--transition);
+        }
+
+        @media (min-width: 768px) {
+            .question-editor {
+                padding: 20px;
+                margin-bottom: 16px;
+            }
         }
 
         .question-editor:hover {
@@ -1085,33 +1543,39 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .question-editor-header h4 {
-            font-size: 15px;
+            font-size: 14px;
             color: var(--gray-700);
         }
 
         .question-editor-header .header-actions {
             display: flex;
-            gap: 6px;
+            gap: 4px;
             align-items: center;
         }
 
         .options-editor {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 12px;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        @media (min-width: 480px) {
+            .options-editor {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         .option-editor {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: white;
-            padding: 6px 12px;
+            padding: 4px 10px;
             border-radius: 8px;
             border: 1px solid var(--gray-200);
         }
@@ -1119,19 +1583,20 @@
         .option-editor .option-letter {
             font-weight: 700;
             color: var(--gray-600);
-            font-size: 13px;
-            min-width: 20px;
+            font-size: 12px;
+            min-width: 16px;
         }
 
         .option-editor input[type="text"] {
             flex: 1;
-            padding: 6px 8px;
+            padding: 4px 6px;
             border: none;
             border-radius: 6px;
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
+            font-size: 13px;
             transition: var(--transition);
             background: transparent;
+            min-width: 40px;
         }
 
         .option-editor input[type="text"]:focus {
@@ -1141,8 +1606,8 @@
         }
 
         .option-editor input[type="radio"] {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             accent-color: var(--primary);
             cursor: pointer;
             flex-shrink: 0;
@@ -1153,10 +1618,10 @@
             border: none;
             color: var(--gray-400);
             cursor: pointer;
-            padding: 2px 6px;
+            padding: 2px 4px;
             border-radius: 4px;
             transition: var(--transition);
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .option-editor .remove-option:hover {
@@ -1165,22 +1630,22 @@
         }
 
         .add-option-btn {
-            margin-top: 8px;
-            padding: 8px 16px;
+            margin-top: 6px;
+            padding: 6px 12px;
             border: 2px dashed var(--gray-300);
             border-radius: 8px;
             background: transparent;
             color: var(--gray-500);
             cursor: pointer;
             font-family: 'Inter', sans-serif;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
             transition: var(--transition);
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .add-option-btn:hover {
@@ -1189,28 +1654,122 @@
             background: var(--primary-light);
         }
 
+        .rating-config-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            margin-bottom: 8px;
+            border: 1px solid var(--gray-200);
+            flex-wrap: wrap;
+        }
+
+        .rating-config-item .rating-icon {
+            font-size: 24px;
+            width: 32px;
+            text-align: center;
+        }
+
+        .rating-config-item .rating-info {
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .rating-config-item .rating-info .rating-name {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .rating-config-item .rating-info .rating-desc {
+            font-size: 11px;
+            color: var(--gray-500);
+        }
+
+        .rating-config-item input[type="number"] {
+            width: 60px;
+            padding: 4px 8px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .rating-config-item input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        .rating-config-item .rating-range {
+            font-size: 11px;
+            color: var(--gray-500);
+            min-width: 60px;
+            text-align: center;
+            background: var(--gray-100);
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+        }
+
+        .rating-info-quiz {
+            padding: 10px 14px;
+            background: var(--primary-light);
+            border-radius: var(--radius);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--gray-700);
+            flex-wrap: wrap;
+        }
+
         .toast-container {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
             z-index: 2000;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            pointer-events: none;
+        }
+
+        @media (min-width: 768px) {
+            .toast-container {
+                bottom: 24px;
+                right: 24px;
+                left: auto;
+            }
         }
 
         .toast {
-            padding: 14px 24px;
+            padding: 12px 18px;
             background: var(--gray-900);
             color: white;
             border-radius: var(--radius);
             box-shadow: var(--shadow-lg);
             animation: slideIn 0.4s ease;
             font-weight: 500;
-            max-width: 420px;
+            max-width: 100%;
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 13px;
+            pointer-events: auto;
+        }
+
+        @media (min-width: 768px) {
+            .toast {
+                max-width: 420px;
+                padding: 14px 24px;
+                font-size: 14px;
+            }
         }
 
         .toast.success { background: var(--success); }
@@ -1222,159 +1781,288 @@
             to { transform: translateX(0) scale(1); opacity: 1; }
         }
 
-        @media (max-width: 1024px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-                padding: 16px;
-            }
-            .sidebar {
-                position: static;
-                order: 2;
-            }
-            .quiz-list {
-                max-height: 200px;
-            }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-15px); }
+            40% { transform: translateX(15px); }
+            60% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
         }
 
-        @media (max-width: 768px) {
-            .top-bar {
-                padding: 12px 16px;
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .home-header {
+                flex-direction: column;
+                align-items: stretch;
             }
-            .top-bar-inner {
-                flex-wrap: wrap;
-            }
-            .top-bar-right {
+            .home-header-right {
                 width: 100%;
-                justify-content: space-between;
             }
-            .content {
-                padding: 16px;
-            }
-            .quiz-header {
-                flex-direction: column;
-            }
-            .options-grid {
-                grid-template-columns: 1fr;
-            }
-            .options-editor {
-                grid-template-columns: 1fr;
-            }
-            .results-stats {
-                grid-template-columns: 1fr;
-            }
-            .modal {
-                padding: 20px;
-            }
-            .quiz-actions {
-                flex-direction: column;
-            }
-            .quiz-actions .progress-info {
-                text-align: center;
-            }
-            .quiz-actions .btn {
+            .btn-create-quiz {
                 width: 100%;
                 justify-content: center;
             }
-            .rating-config-item {
-                flex-wrap: wrap;
+            .quiz-grid {
+                grid-template-columns: 1fr;
             }
-            .rating-config-item .rating-range {
-                min-width: 100%;
-                text-align: left;
+            .quiz-view-header {
+                flex-direction: column;
+                align-items: stretch;
             }
-            .backup-actions .btn {
-                min-width: 100%;
+            .quiz-view-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+            .quiz-view-actions .btn {
+                flex: 1;
+                justify-content: center;
+            }
+            .top-bar-right .btn-text {
+                display: none;
+            }
+            .login-box {
+                padding: 24px 16px;
+            }
+            .login-tabs .tab-btn {
+                font-size: 13px;
+                padding: 8px;
             }
         }
 
-        @media (max-width: 480px) {
-            .top-bar-right .btn:not(.btn-primary) {
-                display: none;
-            }
-            .quiz-header-left h2 {
-                font-size: 20px;
-            }
-            .results-score {
-                font-size: 48px;
-            }
-            .shuffle-controls {
-                flex-direction: column;
-                align-items: stretch;
-                text-align: center;
+        @media (min-width: 601px) and (max-width: 900px) {
+            .quiz-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
-    <header class="top-bar">
-        <div class="top-bar-inner">
-            <a href="#" class="logo">
+    <!-- ===== LOGIN SCREEN ===== -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="login-logo">
                 <div class="logo-icon">⚡</div>
-                <span>QuizFlow</span>
-            </a>
-            <div class="top-bar-right">
-                <button class="btn btn-primary" onclick="openCreateQuiz()"><i class="fas fa-plus"></i> Novo Quiz</button>
-                <button class="btn btn-outline btn-sm" onclick="exportQuiz()"><i class="fas fa-download"></i></button>
-                <button class="btn btn-outline btn-sm" onclick="openImportModal()"><i class="fas fa-upload"></i></button>
-                <div class="dropdown">
-                    <button class="btn-icon" onclick="toggleDropdown(event)" id="menuButton"><i class="fas fa-ellipsis-v"></i></button>
-                    <div class="dropdown-menu" id="dropdownMenu">
-                        <button class="dropdown-menu-item" onclick="if(currentQuizId) { openEditQuiz(currentQuizId); closeDropdown(); }">
-                            <i class="fas fa-edit" style="color:var(--primary);"></i> Editar quiz
-                        </button>
-                        <button class="dropdown-menu-item" onclick="openRatingConfig(); closeDropdown();">
-                            <i class="fas fa-sliders-h" style="color:var(--warning);"></i> Configurar avaliações
-                        </button>
-                        <div class="dropdown-divider"></div>
-                        <button class="dropdown-menu-item" onclick="exportBackup(); closeDropdown();">
-                            <i class="fas fa-file-export" style="color:var(--success);"></i> Exportar backup
-                        </button>
-                        <button class="dropdown-menu-item" onclick="openImportBackup(); closeDropdown();">
-                            <i class="fas fa-file-import" style="color:var(--primary);"></i> Importar backup
-                        </button>
-                        <div class="dropdown-divider"></div>
-                        <div class="dropdown-menu-item" style="cursor:default;" onclick="event.stopPropagation();">
-                            <i class="fas fa-random" style="color:var(--warning);"></i>
-                            <span class="toggle-label">Embaralhar opções</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="shuffleToggle" checked onchange="toggleShuffle()">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <button class="dropdown-menu-item" onclick="if(currentQuizId) reshuffleQuiz(); closeDropdown();">
-                            <i class="fas fa-rotate-right" style="color:var(--warning);"></i> Reembaralhar
-                        </button>
-                        <button class="dropdown-menu-item" onclick="if(currentQuizId) resetQuiz(); closeDropdown();">
-                            <i class="fas fa-undo" style="color:var(--warning);"></i> Resetar respostas
-                        </button>
-                        <div class="dropdown-divider"></div>
-                        <button class="dropdown-menu-item danger" onclick="if(currentQuizId) deleteQuiz(currentQuizId); closeDropdown();">
-                            <i class="fas fa-trash-alt"></i> Excluir quiz
+                <h1>QuizFlow</h1>
+                <p>Gerencie seus quizzes com facilidade</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="login-tabs">
+                <button class="tab-btn active" data-tab="login" onclick="switchLoginTab('login')">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+                <button class="tab-btn" data-tab="register" onclick="switchLoginTab('register')">
+                    <i class="fas fa-user-plus"></i> Criar conta
+                </button>
+            </div>
+
+            <!-- ===== LOGIN FORM ===== -->
+            <div class="login-form active" id="loginForm">
+                <div class="form-error" id="loginError" style="display:block;margin-bottom:16px;background:#FFEBEE;color:#B71C1C;padding:10px 14px;border-radius:var(--radius);border-left:4px solid var(--danger);display:none;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="loginErrorMessage">Usuário ou senha incorretos!</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginUsername">Usuário</label>
+                    <input type="text" id="loginUsername" placeholder="Digite seu usuário" autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Senha</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="loginPassword" placeholder="Digite sua senha" autocomplete="current-password">
+                        <button class="toggle-password" onclick="togglePasswordVisibility('loginPassword', 'passwordToggleIcon')" type="button">
+                            <i class="fas fa-eye" id="passwordToggleIcon"></i>
                         </button>
                     </div>
                 </div>
+
+                <div class="remember-me" onclick="toggleRememberMe()">
+                    <input type="checkbox" id="rememberMe" checked>
+                    <label for="rememberMe">Lembrar minhas credenciais</label>
+                </div>
+
+                <button class="btn-login" onclick="handleLogin()" id="loginButton">
+                    <i class="fas fa-sign-in-alt btn-icon"></i> Entrar
+                </button>
+            </div>
+
+            <!-- ===== CREATE ACCOUNT FORM ===== -->
+            <div class="create-account-form" id="registerForm">
+                <div class="form-error" id="registerError" style="display:block;margin-bottom:16px;background:#FFEBEE;color:#B71C1C;padding:10px 14px;border-radius:var(--radius);border-left:4px solid var(--danger);display:none;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="registerErrorMessage">Erro ao criar conta!</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerUsername">Nome de usuário</label>
+                    <input type="text" id="registerUsername" placeholder="Escolha um nome de usuário">
+                    <div class="form-error" id="registerUsernameError">Usuário deve ter pelo menos 3 caracteres</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword">Senha</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="registerPassword" placeholder="Digite sua senha">
+                        <button class="toggle-password" onclick="togglePasswordVisibility('registerPassword', 'registerPasswordIcon')" type="button">
+                            <i class="fas fa-eye" id="registerPasswordIcon"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                    <div class="password-strength-text" id="strengthText">Digite uma senha forte</div>
+                    <div class="form-error" id="registerPasswordError">Senha deve ter pelo menos 4 caracteres</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPasswordConfirm">Confirmar senha</label>
+                    <input type="password" id="registerPasswordConfirm" placeholder="Confirme sua senha">
+                    <div class="form-error" id="registerConfirmError">As senhas não coincidem</div>
+                </div>
+
+                <button class="btn-create" onclick="createAccount()" id="registerButton">
+                    <i class="fas fa-user-plus btn-icon"></i> Criar Conta
+                </button>
+
+                <div class="create-success" id="registerSuccess">
+                    <div class="success-icon">✅</div>
+                    <h3>Conta criada com sucesso!</h3>
+                    <p>Você já pode fazer login com suas credenciais.</p>
+                    <button class="btn-login" style="margin-top:16px;" onclick="switchLoginTab('login')">
+                        <i class="fas fa-sign-in-alt btn-icon"></i> Ir para Login
+                    </button>
+                </div>
             </div>
         </div>
-    </header>
-
-    <div class="main-layout">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <span class="sidebar-title">📚 Seus Quizzes</span>
-                <span class="sidebar-count" id="quizCount">0</span>
-            </div>
-            <div class="quiz-list" id="quizList"></div>
-        </aside>
-        <main class="content" id="contentArea">
-            <div style="text-align:center;padding:60px 20px;color:var(--gray-400);">
-                <div style="font-size:64px;margin-bottom:16px;">🎯</div>
-                <h3 style="font-size:20px;font-weight:600;color:var(--gray-700);margin-bottom:8px;">Bem-vindo ao QuizFlow</h3>
-                <p>Crie um novo quiz ou selecione um existente</p>
-            </div>
-        </main>
     </div>
 
-    <!-- MODAL CRIAÇÃO/EDIÇÃO -->
+    <!-- ===== APP CONTENT ===== -->
+    <div id="appContent" style="display:none;">
+        <header class="top-bar">
+            <div class="top-bar-inner">
+                <a href="#" class="logo" onclick="goHome()">
+                    <div class="logo-icon">⚡</div>
+                    <span>QuizFlow</span>
+                </a>
+                <div class="top-bar-right">
+                    <div class="user-info">
+                        <div class="avatar" id="userAvatar">A</div>
+                        <span class="username" id="userNameDisplay">admin</span>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn-icon" onclick="toggleDropdown(event)" id="menuButton">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <button class="dropdown-menu-item" onclick="openCreateUserModal(); closeDropdown();">
+                                <i class="fas fa-user-plus" style="color:var(--success);"></i> Criar novo usuário
+                            </button>
+                            <button class="dropdown-menu-item" onclick="openManageUsersModal(); closeDropdown();">
+                                <i class="fas fa-users" style="color:var(--primary);"></i> Gerenciar usuários
+                            </button>
+                            <button class="dropdown-menu-item danger" onclick="openDeleteAccountModal(); closeDropdown();">
+                                <i class="fas fa-user-slash"></i> Excluir minha conta
+                            </button>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-menu-item" onclick="openRatingConfig(); closeDropdown();">
+                                <i class="fas fa-sliders-h" style="color:var(--warning);"></i> Configurar avaliações
+                            </button>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-menu-item" onclick="exportBackup(); closeDropdown();">
+                                <i class="fas fa-file-export" style="color:var(--success);"></i> Exportar backup
+                            </button>
+                            <button class="dropdown-menu-item" onclick="openImportBackup(); closeDropdown();">
+                                <i class="fas fa-file-import" style="color:var(--primary);"></i> Importar backup
+                            </button>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-menu-item" style="cursor:default;" onclick="event.stopPropagation();">
+                                <i class="fas fa-random" style="color:var(--warning);"></i>
+                                <span class="toggle-label">Embaralhar opções</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="shuffleToggle" checked onchange="toggleShuffle()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <button class="dropdown-menu-item" onclick="if(currentQuizId) reshuffleQuiz(); closeDropdown();">
+                                <i class="fas fa-rotate-right" style="color:var(--warning);"></i> Reembaralhar
+                            </button>
+                            <button class="dropdown-menu-item" onclick="if(currentQuizId) resetQuiz(); closeDropdown();">
+                                <i class="fas fa-undo" style="color:var(--warning);"></i> Resetar respostas
+                            </button>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-menu-item danger" onclick="handleLogout(); closeDropdown();">
+                                <i class="fas fa-sign-out-alt"></i> Sair
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            <!-- ===== HOME SCREEN ===== -->
+            <div class="home-screen" id="homeScreen">
+                <div class="home-header">
+                    <div class="home-header-left">
+                        <h1>📚 Meus Quizzes</h1>
+                        <p>Gerencie todos os seus quizzes em um só lugar</p>
+                    </div>
+                    <div class="home-header-right">
+                        <button class="btn-create-quiz" onclick="openCreateQuiz()">
+                            <i class="fas fa-plus-circle"></i> Criar Novo Quiz
+                        </button>
+                    </div>
+                </div>
+
+                <div class="quiz-grid" id="quizGrid">
+                    <!-- Quizzes serão renderizados aqui -->
+                </div>
+            </div>
+
+            <!-- ===== QUIZ VIEW ===== -->
+            <div class="quiz-view" id="quizView">
+                <div class="quiz-view-header">
+                    <button class="back-btn" onclick="goHome()">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </button>
+                    <div class="quiz-title" id="quizViewTitle">
+                        <span id="quizViewName">Quiz</span>
+                        <span class="badge" id="quizViewBadge">🔀 Embaralhado</span>
+                    </div>
+                    <div class="quiz-view-actions">
+                        <button class="btn btn-outline btn-sm" onclick="if(currentQuizId) { openEditQuiz(currentQuizId); }">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="if(currentQuizId) deleteQuiz(currentQuizId);">
+                            <i class="fas fa-trash-alt"></i> Excluir
+                        </button>
+                    </div>
+                </div>
+                <div id="quizContent">
+                    <!-- Conteúdo do quiz será renderizado aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL CRIAÇÃO/EDIÇÃO QUIZ ===== -->
     <div class="modal-overlay" id="quizModal">
         <div class="modal">
             <div class="modal-header">
@@ -1387,7 +2075,7 @@
                     <input class="form-input" id="quizNameInput" placeholder="Ex: Matemática Básica" />
                 </div>
                 <div class="form-group">
-                    <label class="form-label" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
+                    <label class="form-label" style="display:flex;align-items:center;gap:12px;cursor:pointer;flex-wrap:wrap;">
                         <span>🔀 Embaralhar opções automaticamente</span>
                         <label class="toggle-switch" style="cursor:pointer;">
                             <input type="checkbox" id="modalShuffleToggle" checked>
@@ -1408,7 +2096,7 @@
         </div>
     </div>
 
-    <!-- MODAL CONFIGURAÇÃO DE AVALIAÇÕES -->
+    <!-- ===== MODAL CONFIGURAÇÃO DE AVALIAÇÕES ===== -->
     <div class="modal-overlay" id="ratingConfigModal">
         <div class="modal">
             <div class="modal-header">
@@ -1429,7 +2117,7 @@
         </div>
     </div>
 
-    <!-- MODAL BACKUP -->
+    <!-- ===== MODAL BACKUP ===== -->
     <div class="modal-overlay" id="backupModal">
         <div class="modal">
             <div class="modal-header">
@@ -1437,14 +2125,14 @@
                 <button class="modal-close" onclick="closeModal('backupModal')"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
-                <div class="backup-info">
-                    <i class="fas fa-info-circle"></i>
+                <div style="padding:10px 14px;background:var(--gray-50);border-radius:var(--radius);margin-bottom:12px;font-size:13px;color:var(--gray-600);display:flex;align-items:center;gap:10px;">
+                    <i class="fas fa-info-circle" style="color:var(--primary);font-size:18px;"></i>
                     <span id="backupInfoText">Copie o código abaixo para fazer backup.</span>
                 </div>
-                <textarea class="form-input form-textarea" id="backupTextarea" readonly style="font-family:'Courier New',monospace;font-size:13px;min-height:200px;"></textarea>
-                <div class="backup-actions">
-                    <button class="btn btn-primary" onclick="copyBackupCode()"><i class="fas fa-copy"></i> Copiar</button>
-                    <button class="btn btn-success" onclick="downloadBackupFile()"><i class="fas fa-download"></i> Baixar</button>
+                <textarea class="form-input" id="backupTextarea" readonly style="font-family:'Courier New',monospace;font-size:12px;min-height:150px;resize:vertical;"></textarea>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+                    <button class="btn btn-primary" onclick="copyBackupCode()" style="flex:1;justify-content:center;"><i class="fas fa-copy"></i> Copiar</button>
+                    <button class="btn btn-success" onclick="downloadBackupFile()" style="flex:1;justify-content:center;"><i class="fas fa-download"></i> Baixar</button>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1453,7 +2141,7 @@
         </div>
     </div>
 
-    <!-- MODAL IMPORTAR BACKUP -->
+    <!-- ===== MODAL IMPORTAR BACKUP ===== -->
     <div class="modal-overlay" id="importBackupModal">
         <div class="modal">
             <div class="modal-header">
@@ -1461,16 +2149,16 @@
                 <button class="modal-close" onclick="closeModal('importBackupModal')"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
-                <div class="backup-info">
-                    <i class="fas fa-exclamation-triangle" style="color:var(--warning);"></i>
+                <div style="padding:10px 14px;background:#FFF3E0;border-radius:var(--radius);margin-bottom:12px;font-size:13px;color:var(--gray-700);display:flex;align-items:center;gap:10px;border-left:4px solid var(--warning);">
+                    <i class="fas fa-exclamation-triangle" style="color:var(--warning);font-size:18px;"></i>
                     <span><strong>Atenção:</strong> Isso substituirá todos os dados atuais!</span>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Cole o código de backup</label>
-                    <textarea class="form-input form-textarea" id="importBackupTextarea" placeholder="Cole aqui o código JSON..." style="min-height:150px;"></textarea>
+                    <textarea class="form-input" id="importBackupTextarea" placeholder="Cole aqui o código JSON..." style="min-height:120px;resize:vertical;"></textarea>
                 </div>
-                <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                    <button class="btn btn-outline" onclick="importBackupFromFile()" style="flex:1;">
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn btn-outline" onclick="importBackupFromFile()" style="flex:1;justify-content:center;">
                         <i class="fas fa-file-upload"></i> Importar arquivo
                     </button>
                     <input type="file" id="backupFileInput" accept=".json" style="display:none;" onchange="handleBackupFile(event)">
@@ -1483,7 +2171,7 @@
         </div>
     </div>
 
-    <!-- MODAL IMPORTAÇÃO QUIZ -->
+    <!-- ===== MODAL IMPORTAÇÃO QUIZ ===== -->
     <div class="modal-overlay" id="importModal">
         <div class="modal">
             <div class="modal-header">
@@ -1493,7 +2181,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label class="form-label">Cole o JSON do quiz</label>
-                    <textarea class="form-input form-textarea" id="importInput" placeholder='{"name": "Meu Quiz", "questions": [...]}'></textarea>
+                    <textarea class="form-input" id="importInput" placeholder='{"name": "Meu Quiz", "questions": [...]}' style="min-height:100px;resize:vertical;"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1503,9 +2191,510 @@
         </div>
     </div>
 
+    <!-- ===== MODAL CRIAR USUÁRIO (ADMIN) ===== -->
+    <div class="modal-overlay" id="createUserModal">
+        <div class="modal" style="max-width:420px;">
+            <div class="modal-header">
+                <h2 class="modal-title">👤 Criar Novo Usuário</h2>
+                <button class="modal-close" onclick="closeModal('createUserModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Nome de usuário</label>
+                    <input class="form-input" id="newUsername" placeholder="Digite o nome de usuário" />
+                    <div class="form-error" id="newUsernameError">Usuário já existe ou inválido</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Senha</label>
+                    <input class="form-input" id="newPassword" type="password" placeholder="Digite a senha" />
+                    <div class="form-error" id="newPasswordError">Senha deve ter pelo menos 4 caracteres</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirmar senha</label>
+                    <input class="form-input" id="newPasswordConfirm" type="password" placeholder="Confirme a senha" />
+                    <div class="form-error" id="newConfirmError">As senhas não coincidem</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('createUserModal')">Cancelar</button>
+                <button class="btn btn-success" onclick="createUserAdmin()"><i class="fas fa-user-plus"></i> Criar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL GERENCIAR USUÁRIOS ===== -->
+    <div class="modal-overlay" id="manageUsersModal">
+        <div class="modal" style="max-width:450px;">
+            <div class="modal-header">
+                <h2 class="modal-title">👥 Gerenciar Usuários</h2>
+                <button class="modal-close" onclick="closeModal('manageUsersModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="usersList" style="display:flex;flex-direction:column;gap:8px;"></div>
+                <div style="margin-top:12px;font-size:12px;color:var(--gray-500);text-align:center;">
+                    <i class="fas fa-info-circle"></i> Clique no <i class="fas fa-trash-alt" style="color:var(--danger);"></i> para excluir um usuário
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('manageUsersModal')">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL EXCLUIR CONTA ===== -->
+    <div class="modal-overlay" id="deleteAccountModal">
+        <div class="modal" style="max-width:400px;">
+            <div class="modal-header">
+                <h2 class="modal-title">⚠️ Excluir Conta</h2>
+                <button class="modal-close" onclick="closeModal('deleteAccountModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div style="padding:12px 16px;background:#FFF3E0;border-radius:var(--radius);margin-bottom:16px;border-left:4px solid var(--danger);">
+                    <p style="font-size:14px;color:var(--gray-700);">
+                        <i class="fas fa-exclamation-triangle" style="color:var(--danger);margin-right:8px;"></i>
+                        <strong>Atenção:</strong> Esta ação é irreversível! Todos os seus quizzes e dados serão permanentemente excluídos.
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Digite sua senha para confirmar</label>
+                    <input class="form-input" id="deleteAccountPassword" type="password" placeholder="Digite sua senha" />
+                    <div class="form-error" id="deleteAccountError">Senha incorreta!</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Digite seu nome de usuário para confirmar</label>
+                    <input class="form-input" id="deleteAccountUsername" placeholder="Digite seu nome de usuário" />
+                    <div class="form-error" id="deleteAccountUsernameError">Usuário incorreto!</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('deleteAccountModal')">Cancelar</button>
+                <button class="btn btn-danger" onclick="confirmDeleteAccount()"><i class="fas fa-user-slash"></i> Excluir Conta</button>
+            </div>
+        </div>
+    </div>
+
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
+        // ====== SISTEMA DE USUÁRIOS ======
+        let users = [];
+        let currentUser = '';
+        let isLoggedIn = false;
+
+        function loadUsers() {
+            const saved = localStorage.getItem('quizflow_users');
+            if (saved) {
+                try {
+                    users = JSON.parse(saved);
+                } catch (e) {
+                    users = [];
+                }
+            }
+            if (users.length === 0) {
+                users = [];
+                saveUsers();
+            }
+        }
+
+        function saveUsers() {
+            localStorage.setItem('quizflow_users', JSON.stringify(users));
+        }
+
+        function checkAutoLogin() {
+            const saved = localStorage.getItem('quizflow_session');
+            if (saved) {
+                try {
+                    const session = JSON.parse(saved);
+                    if (session.username && session.remember) {
+                        const userExists = users.find(u => u.username === session.username);
+                        if (userExists) {
+                            currentUser = session.username;
+                            isLoggedIn = true;
+                            document.getElementById('loginScreen').classList.add('hidden');
+                            document.getElementById('appContent').style.display = 'block';
+                            document.getElementById('userNameDisplay').textContent = currentUser;
+                            document.getElementById('userAvatar').textContent = currentUser.charAt(0).toUpperCase();
+                            initApp();
+                            return true;
+                        }
+                    }
+                } catch (e) {}
+            }
+            return false;
+        }
+
+        // ====== LOGIN TABS ======
+        function switchLoginTab(tab) {
+            // Atualizar tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
+
+            // Atualizar formulários
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('registerForm').classList.remove('active');
+
+            if (tab === 'login') {
+                document.getElementById('loginForm').classList.add('active');
+                document.getElementById('loginError').style.display = 'none';
+            } else {
+                document.getElementById('registerForm').classList.add('active');
+                document.getElementById('registerError').style.display = 'none';
+                document.getElementById('registerSuccess').classList.remove('show');
+            }
+        }
+
+        // ====== TOGGLE PASSWORD ======
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        function toggleRememberMe() {
+            const checkbox = document.getElementById('rememberMe');
+            checkbox.checked = !checkbox.checked;
+        }
+
+        // ====== PASSWORD STRENGTH ======
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('registerPassword');
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function() {
+                    const strength = getPasswordStrength(this.value);
+                    const bar = document.getElementById('strengthBar');
+                    const text = document.getElementById('strengthText');
+                    
+                    bar.style.width = strength.score + '%';
+                    bar.style.background = strength.color;
+                    
+                    if (this.value.length === 0) {
+                        text.textContent = 'Digite uma senha forte';
+                    } else {
+                        text.textContent = strength.label;
+                    }
+                });
+            }
+        });
+
+        function getPasswordStrength(password) {
+            let score = 0;
+            if (password.length >= 4) score += 25;
+            if (password.length >= 8) score += 25;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score += 25;
+            if (/\d/.test(password) || /[^a-zA-Z0-9]/.test(password)) score += 25;
+
+            let label = 'Fraca';
+            let color = '#FF1744';
+            if (score >= 75) { label = 'Forte'; color = '#00C853'; }
+            else if (score >= 50) { label = 'Média'; color = '#FFD600'; }
+            else if (score >= 25) { label = 'Fraca'; color = '#FF9800'; }
+
+            return { score, label, color };
+        }
+
+        // ====== LOGIN ======
+        function handleLogin() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const remember = document.getElementById('rememberMe').checked;
+            const errorDiv = document.getElementById('loginError');
+            const errorMsg = document.getElementById('loginErrorMessage');
+            const button = document.getElementById('loginButton');
+
+            if (!username || !password) {
+                errorMsg.textContent = 'Preencha todos os campos!';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                errorDiv.style.display = 'none';
+                button.disabled = true;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
+
+                setTimeout(() => {
+                    isLoggedIn = true;
+                    currentUser = username;
+                    
+                    if (remember) {
+                        localStorage.setItem('quizflow_session', JSON.stringify({
+                            username: username,
+                            remember: true
+                        }));
+                    } else {
+                        localStorage.removeItem('quizflow_session');
+                    }
+
+                    document.getElementById('loginScreen').classList.add('hidden');
+                    document.getElementById('appContent').style.display = 'block';
+                    document.getElementById('userNameDisplay').textContent = username;
+                    document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
+                    
+                    button.disabled = false;
+                    button.innerHTML = '<i class="fas fa-sign-in-alt btn-icon"></i> Entrar';
+                    
+                    initApp();
+                    showToast('✅ Bem-vindo, ' + username + '!', 'success');
+                }, 800);
+            } else {
+                const userExists = users.find(u => u.username === username);
+                if (userExists) {
+                    errorMsg.textContent = 'Senha incorreta!';
+                } else {
+                    errorMsg.textContent = 'Usuário não encontrado! Crie uma conta.';
+                }
+                errorDiv.style.display = 'block';
+                button.disabled = false;
+                button.innerHTML = '<i class="fas fa-sign-in-alt btn-icon"></i> Entrar';
+                
+                const box = document.querySelector('.login-box');
+                box.style.animation = 'none';
+                setTimeout(() => {
+                    box.style.animation = 'shake 0.5s ease';
+                }, 10);
+            }
+        }
+
+        // ====== CRIAR CONTA ======
+        function createAccount() {
+            const username = document.getElementById('registerUsername').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirm = document.getElementById('registerPasswordConfirm').value;
+
+            let valid = true;
+            const errorDiv = document.getElementById('registerError');
+            const errorMsg = document.getElementById('registerErrorMessage');
+
+            // Limpar erros anteriores
+            document.querySelectorAll('#registerForm .form-error').forEach(el => el.classList.remove('show'));
+            document.querySelectorAll('#registerForm .form-input').forEach(el => el.classList.remove('error'));
+
+            // Validar usuário
+            if (!username || username.length < 3) {
+                document.getElementById('registerUsernameError').textContent = 'Usuário deve ter pelo menos 3 caracteres';
+                document.getElementById('registerUsernameError').classList.add('show');
+                document.getElementById('registerUsername').classList.add('error');
+                valid = false;
+            } else if (users.find(u => u.username === username)) {
+                document.getElementById('registerUsernameError').textContent = 'Este usuário já existe!';
+                document.getElementById('registerUsernameError').classList.add('show');
+                document.getElementById('registerUsername').classList.add('error');
+                valid = false;
+            }
+
+            // Validar senha
+            if (!password || password.length < 4) {
+                document.getElementById('registerPasswordError').classList.add('show');
+                document.getElementById('registerPassword').classList.add('error');
+                valid = false;
+            }
+
+            // Validar confirmação
+            if (password !== confirm) {
+                document.getElementById('registerConfirmError').classList.add('show');
+                document.getElementById('registerPasswordConfirm').classList.add('error');
+                valid = false;
+            }
+
+            if (!valid) {
+                errorMsg.textContent = 'Corrija os campos destacados!';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            // Criar conta
+            users.push({ username, password });
+            saveUsers();
+
+            // Mostrar sucesso
+            document.getElementById('registerForm').querySelector('.btn-create').style.display = 'none';
+            document.getElementById('registerSuccess').classList.add('show');
+            errorDiv.style.display = 'none';
+
+            showToast('✅ Conta criada com sucesso!', 'success');
+        }
+
+        // ====== CRIAÇÃO DE USUÁRIO ADMIN ======
+        function openCreateUserModal() {
+            document.getElementById('newUsername').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('newPasswordConfirm').value = '';
+            document.getElementById('newUsernameError').classList.remove('show');
+            document.getElementById('newPasswordError').classList.remove('show');
+            document.getElementById('newConfirmError').classList.remove('show');
+            document.getElementById('createUserModal').classList.add('active');
+            closeDropdown();
+        }
+
+        function createUserAdmin() {
+            const username = document.getElementById('newUsername').value.trim();
+            const password = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('newPasswordConfirm').value;
+
+            let valid = true;
+
+            if (!username || username.length < 3) {
+                document.getElementById('newUsernameError').textContent = 'Usuário deve ter pelo menos 3 caracteres';
+                document.getElementById('newUsernameError').classList.add('show');
+                document.getElementById('newUsername').classList.add('error');
+                valid = false;
+            } else if (users.find(u => u.username === username)) {
+                document.getElementById('newUsernameError').textContent = 'Este usuário já existe!';
+                document.getElementById('newUsernameError').classList.add('show');
+                document.getElementById('newUsername').classList.add('error');
+                valid = false;
+            } else {
+                document.getElementById('newUsernameError').classList.remove('show');
+                document.getElementById('newUsername').classList.remove('error');
+            }
+
+            if (!password || password.length < 4) {
+                document.getElementById('newPasswordError').classList.add('show');
+                document.getElementById('newPassword').classList.add('error');
+                valid = false;
+            } else {
+                document.getElementById('newPasswordError').classList.remove('show');
+                document.getElementById('newPassword').classList.remove('error');
+            }
+
+            if (password !== confirm) {
+                document.getElementById('newConfirmError').classList.add('show');
+                document.getElementById('newPasswordConfirm').classList.add('error');
+                valid = false;
+            } else {
+                document.getElementById('newConfirmError').classList.remove('show');
+                document.getElementById('newPasswordConfirm').classList.remove('error');
+            }
+
+            if (!valid) return;
+
+            users.push({ username, password });
+            saveUsers();
+            closeModal('createUserModal');
+            showToast('✅ Usuário "' + username + '" criado com sucesso!', 'success');
+        }
+
+        // ====== GERENCIAR USUÁRIOS ======
+        function openManageUsersModal() {
+            renderUsersList();
+            document.getElementById('manageUsersModal').classList.add('active');
+            closeDropdown();
+        }
+
+        function renderUsersList() {
+            const container = document.getElementById('usersList');
+            if (users.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center;padding:20px;color:var(--gray-400);">
+                        <i class="fas fa-users" style="font-size:32px;margin-bottom:8px;display:block;"></i>
+                        Nenhum usuário cadastrado
+                    </div>
+                `;
+                return;
+            }
+            container.innerHTML = users.map(u => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--gray-50);border-radius:var(--radius);border:1px solid var(--gray-200);">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div style="width:32px;height:32px;border-radius:50%;background:var(--primary-gradient);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;">${u.username.charAt(0).toUpperCase()}</div>
+                        <span style="font-weight:600;font-size:14px;">${u.username}</span>
+                        ${u.username === currentUser ? '<span style="font-size:11px;color:var(--success);font-weight:600;"><i class="fas fa-circle"></i> Atual</span>' : ''}
+                    </div>
+                    ${u.username !== currentUser ? `
+                        <button class="btn btn-danger btn-xs" onclick="deleteUser('${u.username}')">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    ` : `
+                        <span style="font-size:11px;color:var(--gray-400);">Conta atual</span>
+                    `}
+                </div>
+            `).join('');
+        }
+
+        function deleteUser(username) {
+            if (!confirm(`Tem certeza que deseja excluir o usuário "${username}"?`)) return;
+            users = users.filter(u => u.username !== username);
+            saveUsers();
+            renderUsersList();
+            showToast('🗑️ Usuário "' + username + '" excluído!', 'success');
+        }
+
+        // ====== EXCLUIR CONTA ======
+        function openDeleteAccountModal() {
+            document.getElementById('deleteAccountPassword').value = '';
+            document.getElementById('deleteAccountUsername').value = '';
+            document.getElementById('deleteAccountError').classList.remove('show');
+            document.getElementById('deleteAccountUsernameError').classList.remove('show');
+            document.getElementById('deleteAccountPassword').classList.remove('error');
+            document.getElementById('deleteAccountUsername').classList.remove('error');
+            document.getElementById('deleteAccountModal').classList.add('active');
+            closeDropdown();
+        }
+
+        function confirmDeleteAccount() {
+            const password = document.getElementById('deleteAccountPassword').value;
+            const username = document.getElementById('deleteAccountUsername').value.trim();
+
+            let valid = true;
+
+            if (username !== currentUser) {
+                document.getElementById('deleteAccountUsernameError').classList.add('show');
+                document.getElementById('deleteAccountUsername').classList.add('error');
+                valid = false;
+            } else {
+                document.getElementById('deleteAccountUsernameError').classList.remove('show');
+                document.getElementById('deleteAccountUsername').classList.remove('error');
+            }
+
+            const user = users.find(u => u.username === currentUser);
+            if (!user || user.password !== password) {
+                document.getElementById('deleteAccountError').classList.add('show');
+                document.getElementById('deleteAccountPassword').classList.add('error');
+                valid = false;
+            } else {
+                document.getElementById('deleteAccountError').classList.remove('show');
+                document.getElementById('deleteAccountPassword').classList.remove('error');
+            }
+
+            if (!valid) return;
+
+            if (!confirm(`⚠️ Tem certeza que deseja excluir permanentemente sua conta "${currentUser}" e todos os dados associados?`)) {
+                return;
+            }
+
+            users = users.filter(u => u.username !== currentUser);
+            saveUsers();
+            localStorage.removeItem('quizflow_data_' + currentUser);
+            localStorage.removeItem('quizflow_session');
+
+            isLoggedIn = false;
+            currentUser = '';
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('appContent').style.display = 'none';
+            closeModal('deleteAccountModal');
+            showToast('🗑️ Conta excluída com sucesso.', 'warning');
+        }
+
+        function handleLogout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                isLoggedIn = false;
+                currentUser = '';
+                localStorage.removeItem('quizflow_session');
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('appContent').style.display = 'none';
+                showToast('👋 Até logo!', 'warning');
+            }
+        }
+
         // ====== DATA LAYER ======
         let quizzes = [];
         let currentQuizId = null;
@@ -1553,13 +2742,10 @@
         }
 
         // ====== INIT ======
-        function init() {
+        function initApp() {
+            loadUsers();
             loadData();
-            renderSidebar();
-            if (quizzes.length > 0) {
-                currentQuizId = quizzes[0].id;
-                renderQuiz(currentQuizId);
-            }
+            renderHome();
             document.addEventListener('click', function(e) {
                 const menu = document.getElementById('dropdownMenu');
                 const btn = document.getElementById('menuButton');
@@ -1572,7 +2758,7 @@
 
         // ====== LOCAL STORAGE ======
         function loadData() {
-            const saved = localStorage.getItem('quizflow_data');
+            const saved = localStorage.getItem('quizflow_data_' + currentUser);
             if (saved) {
                 try {
                     const data = JSON.parse(saved);
@@ -1593,13 +2779,12 @@
         }
 
         function saveData() {
-            localStorage.setItem('quizflow_data', JSON.stringify({
+            localStorage.setItem('quizflow_data_' + currentUser, JSON.stringify({
                 quizzes: quizzes,
                 isShuffled: isShuffled,
                 ratingConfig: ratingConfig
             }));
-            renderSidebar();
-            document.getElementById('quizCount').textContent = quizzes.length;
+            renderHome();
         }
 
         function getDefaultQuiz() {
@@ -1618,11 +2803,301 @@
             return Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 6);
         }
 
+        // ====== NAVEGAÇÃO ======
+        function goHome() {
+            document.getElementById('homeScreen').style.display = 'flex';
+            document.getElementById('quizView').classList.remove('active');
+            document.getElementById('quizView').style.display = 'none';
+            renderHome();
+        }
+
+        function openQuiz(quizId) {
+            currentQuizId = quizId;
+            resetQuizState();
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('quizView').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('quizView').classList.add('active');
+            }, 10);
+            renderQuiz(quizId);
+        }
+
+        // ====== RENDER HOME ======
+        function renderHome() {
+            const grid = document.getElementById('quizGrid');
+            if (quizzes.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <h3>Nenhum quiz criado</h3>
+                        <p>Clique em "Criar Novo Quiz" para começar</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = quizzes.map(q => `
+                <div class="quiz-card" onclick="openQuiz('${q.id}')">
+                    <div class="card-header">
+                        <span class="card-title">${q.name}</span>
+                        <div class="card-actions">
+                            <button class="btn-icon-sm" onclick="event.stopPropagation(); openEditQuiz('${q.id}')" title="Editar">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button class="btn-icon-sm danger" onclick="event.stopPropagation(); deleteQuiz('${q.id}')" title="Excluir">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <span><i class="fas fa-question-circle"></i> ${q.questions.length} questões</span>
+                        <span><i class="fas fa-clock"></i> ${new Date(parseInt(q.id.split('_')[1] || Date.now())).toLocaleDateString()}</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-badge">${q.questions.length} questões</span>
+                        <span class="card-shuffle">
+                            ${isShuffled ? '<i class="fas fa-random active"></i> Embaralhado' : '<i class="fas fa-ban"></i> Ordem original'}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ====== RENDER QUIZ ======
+        function renderQuiz(quizId) {
+            const quiz = quizzes.find(q => q.id === quizId);
+            if (!quiz) {
+                showToast('⚠️ Quiz não encontrado', 'error');
+                goHome();
+                return;
+            }
+
+            document.getElementById('quizViewName').textContent = quiz.name;
+            const badge = document.getElementById('quizViewBadge');
+            if (isShuffled) {
+                badge.textContent = '🔀 Embaralhado';
+                badge.className = 'badge';
+            } else {
+                badge.textContent = '📋 Ordem original';
+                badge.className = 'badge inactive';
+            }
+
+            const container = document.getElementById('quizContent');
+            if (quizCompleted) {
+                renderResults(quiz, container);
+                return;
+            }
+
+            let html = renderPlayMode(quiz);
+            container.innerHTML = html;
+        }
+
+        // ====== PLAY MODE ======
+        function renderPlayMode(quiz) {
+            const answeredCount = Object.keys(confirmedAnswers).length;
+            const total = quiz.questions.length;
+            const progress = total > 0 ? (answeredCount / total) * 100 : 0;
+            const allConfirmed = answeredCount === total;
+            const hasAnswers = Object.keys(answers).length > 0;
+
+            let html = `
+                <div class="shuffle-controls">
+                    <span class="shuffle-status">
+                        <i class="fas fa-info-circle"></i>
+                        ${isShuffled ? 'Opções embaralhadas para cada questão' : 'Opções na ordem original'}
+                    </span>
+                </div>
+            `;
+
+            quiz.questions.forEach((q, index) => {
+                const shuffled = getShuffledOptions(q);
+                const isAnswered = confirmedAnswers[q.id] !== undefined;
+                const isCorrect = isAnswered && confirmedAnswers[q.id] === q.correct;
+                const selectedOption = answers[q.id];
+
+                let cardClass = 'question-card';
+                if (isAnswered) {
+                    cardClass += isCorrect ? ' answered-correct' : ' answered-wrong';
+                }
+
+                html += `
+                    <div class="${cardClass}" id="qcard_${q.id}">
+                        <div class="question-number">Questão ${index + 1} de ${quiz.questions.length}</div>
+                        <div class="question-text">${q.text}</div>
+                        <div class="options-grid">
+                            ${shuffled.options.map((opt, optIndex) => {
+                                const originalIndex = shuffled.mapping[optIndex];
+                                const isSelected = selectedOption === optIndex;
+                                const isConfirmed = isAnswered;
+                                const isCorrectOption = isConfirmed && originalIndex === q.correct;
+                                const isWrongOption = isConfirmed && isSelected && originalIndex !== q.correct;
+
+                                let classes = 'option-item';
+                                if (isSelected && !isConfirmed) classes += ' selected';
+                                if (isConfirmed) classes += ' confirmed';
+                                if (isCorrectOption) classes += ' confirmed-correct';
+                                if (isWrongOption) classes += ' confirmed-wrong';
+                                if (isConfirmed) classes += ' disabled';
+
+                                let resultIcon = '';
+                                if (isConfirmed) {
+                                    if (originalIndex === q.correct) resultIcon = '<i class="fas fa-check-circle"></i>';
+                                    else if (isSelected) resultIcon = '<i class="fas fa-times-circle"></i>';
+                                }
+
+                                const isDisabled = isConfirmed || quizCompleted;
+
+                                return `
+                                    <div class="${classes}" onclick="${!isDisabled ? `selectAnswer('${q.id}', ${optIndex})` : ''}">
+                                        <input type="radio" name="q_${q.id}" value="${optIndex}" ${isSelected ? 'checked' : ''} ${isDisabled ? 'disabled' : ''}>
+                                        <span class="option-letter">${String.fromCharCode(65 + optIndex)}</span>
+                                        <span class="option-text">${opt}</span>
+                                        ${resultIcon ? `<span class="result-icon">${resultIcon}</span>` : ''}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="answer-feedback ${isAnswered ? 'show' : ''} ${isCorrect ? 'correct' : 'wrong'}">
+                            ${isAnswered ? (isCorrect ? '✅ Resposta correta!' : `❌ Resposta incorreta. A correta é: ${shuffled.options[shuffled.mapping.indexOf(q.correct)]}`) : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="quiz-actions">
+                    <div style="flex:1;">
+                        <div class="progress-info">
+                            <i class="fas fa-chart-simple"></i> Progresso: ${answeredCount}/${total} questões
+                            ${allConfirmed ? ' 🎉 Todas respondidas!' : ''}
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" style="width:${progress}%"></div>
+                        </div>
+                    </div>
+                    ${!allConfirmed ? `
+                        <button class="btn btn-success btn-sm" onclick="confirmAllAnswers()" ${!hasAnswers ? 'disabled' : ''}>
+                            <i class="fas fa-check-double"></i> Confirmar
+                        </button>
+                    ` : ''}
+                    ${allConfirmed && !quizCompleted ? `
+                        <button class="btn btn-primary btn-sm" onclick="showResults()">
+                            <i class="fas fa-chart-bar"></i> Resultado
+                        </button>
+                    ` : ''}
+                    ${quizCompleted ? `
+                        <button class="btn btn-outline btn-sm" onclick="resetQuiz()">
+                            <i class="fas fa-undo"></i> Refazer
+                        </button>
+                    ` : ''}
+                </div>
+            `;
+            return html;
+        }
+
+        function selectAnswer(questionId, optionIndex) {
+            if (quizCompleted) return;
+            answers[questionId] = optionIndex;
+            renderQuiz(currentQuizId);
+        }
+
+        function confirmAllAnswers() {
+            const quiz = quizzes.find(q => q.id === currentQuizId);
+            if (!quiz) return;
+            let hasAllAnswered = true;
+            quiz.questions.forEach(q => {
+                if (answers[q.id] === undefined) hasAllAnswered = false;
+            });
+            if (!hasAllAnswered) {
+                showToast('⚠️ Responda todas as questões!', 'warning');
+                return;
+            }
+            quiz.questions.forEach(q => {
+                const shuffled = getShuffledOptions(q);
+                const selected = answers[q.id];
+                if (selected !== undefined) {
+                    const originalIndex = shuffled.mapping[selected];
+                    confirmedAnswers[q.id] = originalIndex;
+                }
+            });
+            renderQuiz(currentQuizId);
+            showToast('✅ Respostas confirmadas!', 'success');
+        }
+
+        function showResults() {
+            quizCompleted = true;
+            renderQuiz(currentQuizId);
+            showToast('📊 Resultado final!', 'success');
+        }
+
+        function resetQuiz() {
+            resetQuizState();
+            renderQuiz(currentQuizId);
+            showToast('🔄 Quiz resetado!', 'warning');
+        }
+
+        // ====== RENDER RESULTS ======
+        function renderResults(quiz, container) {
+            let correct = 0;
+            quiz.questions.forEach(q => {
+                if (confirmedAnswers[q.id] === q.correct) correct++;
+            });
+            const total = quiz.questions.length;
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            const rating = getRating(correct, total);
+
+            let detailsHtml = '';
+            quiz.questions.forEach((q, index) => {
+                const shuffled = getShuffledOptions(q);
+                const userAnswer = confirmedAnswers[q.id];
+                const isCorrect = userAnswer === q.correct;
+                const correctText = shuffled.options[shuffled.mapping.indexOf(q.correct)];
+                const userText = userAnswer !== undefined ? shuffled.options[shuffled.mapping.indexOf(userAnswer)] : 'Não respondida';
+                detailsHtml += `
+                    <div class="question-card ${isCorrect ? 'answered-correct' : 'answered-wrong'}" style="text-align:left;margin-top:10px;">
+                        <div class="question-number">Questão ${index + 1}</div>
+                        <div class="question-text">${q.text}</div>
+                        <div style="padding:10px 14px;border-radius:var(--radius);background:white;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:13px;">
+                            <span>${isCorrect ? '✅' : '❌'} Sua resposta: ${userText}</span>
+                            <span style="color:var(--success);font-weight:600;">✔️ Correta: ${correctText}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="results-container">
+                    <div class="results-emoji">${rating.emoji}</div>
+                    <div class="results-score">${percentage}%</div>
+                    <div class="results-label">${rating.label}</div>
+                    <div style="font-size:14px;color:var(--gray-600);margin-top:4px;">${correct} de ${total} questões corretas</div>
+                    <div class="results-rating ${rating.class}" style="margin-top:6px;font-size:14px;">
+                        <span style="font-size:20px;margin-right:6px;">${rating.emoji}</span>
+                        ${rating.description}
+                    </div>
+                    <div class="results-stats">
+                        <div class="results-stat"><div class="results-stat-value" style="color:var(--success);">${correct}</div><div class="results-stat-label">✅ Corretas</div></div>
+                        <div class="results-stat"><div class="results-stat-value" style="color:var(--danger);">${total - correct}</div><div class="results-stat-label">❌ Incorretas</div></div>
+                        <div class="results-stat"><div class="results-stat-value" style="color:var(--primary);">${percentage}%</div><div class="results-stat-label">📊 Aproveitamento</div></div>
+                    </div>
+                    <div class="results-revision">
+                        <h4><i class="fas fa-list-ul"></i> Revisão das respostas:</h4>
+                        ${detailsHtml}
+                    </div>
+                    <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                        <button class="btn btn-primary btn-sm" onclick="resetQuiz()"><i class="fas fa-undo"></i> Refazer</button>
+                        <button class="btn btn-outline btn-sm" onclick="openRatingConfig()"><i class="fas fa-sliders-h"></i> Avaliações</button>
+                    </div>
+                </div>
+            `;
+        }
+
         // ====== BACKUP FUNCTIONS ======
         function exportBackup() {
             const data = {
                 version: '1.0',
                 exportedAt: new Date().toISOString(),
+                user: currentUser,
                 quizzes: quizzes,
                 ratingConfig: ratingConfig,
                 isShuffled: isShuffled,
@@ -1632,7 +3107,7 @@
             const json = JSON.stringify(data, null, 2);
             document.getElementById('backupTextarea').value = json;
             document.getElementById('backupInfoText').textContent = 
-                `📊 ${data.totalQuizzes} quizzes, ${data.totalQuestions} questões. Exportado em ${new Date(data.exportedAt).toLocaleString()}`;
+                `📊 ${data.totalQuizzes} quizzes, ${data.totalQuestions} questões. Usuário: ${currentUser}`;
             document.getElementById('backupModal').classList.add('active');
             closeDropdown();
         }
@@ -1654,7 +3129,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `quizflow_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.download = `quizflow_backup_${currentUser}_${new Date().toISOString().slice(0,10)}.json`;
             a.click();
             URL.revokeObjectURL(url);
             showToast('📥 Backup baixado!', 'success');
@@ -1715,15 +3190,10 @@
                 saveData();
                 if (quizzes.length > 0) {
                     currentQuizId = quizzes[0].id;
-                    renderQuiz(currentQuizId);
+                    openQuiz(currentQuizId);
                 } else {
                     currentQuizId = null;
-                    document.getElementById('contentArea').innerHTML = `
-                        <div style="text-align:center;padding:60px 20px;color:var(--gray-400);">
-                            <div style="font-size:64px;margin-bottom:16px;">📭</div>
-                            <h3 style="color:var(--gray-700);">Nenhum quiz no backup</h3>
-                        </div>
-                    `;
+                    goHome();
                 }
                 closeModal('importBackupModal');
                 showToast(`✅ Backup importado! ${totalQuizzes} quizzes.`, 'success');
@@ -1873,7 +3343,7 @@
             answers = {};
             confirmedAnswers = {};
             quizCompleted = false;
-            renderQuiz(currentQuizId);
+            if (currentQuizId) renderQuiz(currentQuizId);
             showToast(isShuffled ? '🔀 Embaralhamento ativado!' : '📋 Embaralhamento desativado!', 'warning');
         }
 
@@ -1885,7 +3355,7 @@
             answers = {};
             confirmedAnswers = {};
             quizCompleted = false;
-            renderQuiz(currentQuizId);
+            if (currentQuizId) renderQuiz(currentQuizId);
             showToast('🔀 Opções reembaralhadas!', 'warning');
         }
 
@@ -1901,278 +3371,11 @@
             document.getElementById('dropdownMenu').classList.remove('open');
         }
 
-        // ====== SIDEBAR ======
-        function renderSidebar() {
-            const container = document.getElementById('quizList');
-            if (quizzes.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-sidebar">
-                        <div class="empty-sidebar-icon">📭</div>
-                        <p>Nenhum quiz criado</p>
-                    </div>
-                `;
-                return;
-            }
-            container.innerHTML = quizzes.map(q => `
-                <div class="quiz-item ${q.id === currentQuizId ? 'active' : ''}" onclick="selectQuiz('${q.id}')">
-                    <div class="quiz-item-info">
-                        <span class="quiz-item-name">${q.name}</span>
-                        <span class="quiz-item-meta">${q.questions.length} questões</span>
-                    </div>
-                    <span class="quiz-item-badge">${q.questions.length}</span>
-                </div>
-            `).join('');
-            document.getElementById('quizCount').textContent = quizzes.length;
-        }
-
-        function selectQuiz(id) {
-            currentQuizId = id;
-            resetQuizState();
-            renderSidebar();
-            renderQuiz(id);
-        }
-
         function resetQuizState() {
             answers = {};
             confirmedAnswers = {};
             quizCompleted = false;
             resetShuffledOptions();
-        }
-
-        // ====== RENDER QUIZ ======
-        function renderQuiz(quizId) {
-            const quiz = quizzes.find(q => q.id === quizId);
-            if (!quiz) {
-                document.getElementById('contentArea').innerHTML = `
-                    <div style="text-align:center;padding:60px 20px;color:var(--gray-400);">
-                        <div style="font-size:48px;margin-bottom:16px;">❌</div>
-                        <h3 style="color:var(--gray-700);">Quiz não encontrado</h3>
-                    </div>
-                `;
-                return;
-            }
-            const container = document.getElementById('contentArea');
-            if (quizCompleted) {
-                renderResults(quiz, container);
-                return;
-            }
-            let html = `
-                <div class="quiz-header">
-                    <div class="quiz-header-left">
-                        <h2>
-                            ${quiz.name}
-                            ${isShuffled ? '<span class="shuffle-badge" style="font-size:11px;padding:2px 10px;"><i class="fas fa-random"></i> Embaralhado</span>' : '<span class="shuffle-badge inactive" style="font-size:11px;padding:2px 10px;"><i class="fas fa-ban"></i> Sem embaralhamento</span>'}
-                        </h2>
-                        <p>${quiz.questions.length} questões</p>
-                    </div>
-                </div>
-            `;
-            html += renderPlayMode(quiz);
-            container.innerHTML = html;
-        }
-
-        // ====== PLAY MODE ======
-        function renderPlayMode(quiz) {
-            const answeredCount = Object.keys(confirmedAnswers).length;
-            const total = quiz.questions.length;
-            const progress = total > 0 ? (answeredCount / total) * 100 : 0;
-            const allConfirmed = answeredCount === total;
-            const hasAnswers = Object.keys(answers).length > 0;
-
-            let html = `
-                <div class="shuffle-controls">
-                    <span class="shuffle-badge ${isShuffled ? '' : 'inactive'}">
-                        <i class="fas ${isShuffled ? 'fa-random' : 'fa-ban'}"></i>
-                        ${isShuffled ? 'Embaralhado' : 'Sem embaralhamento'}
-                    </span>
-                    <span class="shuffle-status">
-                        <i class="fas fa-info-circle"></i>
-                        ${isShuffled ? 'Opções embaralhadas' : 'Ordem original'}
-                    </span>
-                </div>
-            `;
-
-            quiz.questions.forEach((q, index) => {
-                const shuffled = getShuffledOptions(q);
-                const isAnswered = confirmedAnswers[q.id] !== undefined;
-                const isCorrect = isAnswered && confirmedAnswers[q.id] === q.correct;
-                const selectedOption = answers[q.id];
-
-                let cardClass = 'question-card';
-                if (isAnswered) {
-                    cardClass += isCorrect ? ' answered-correct' : ' answered-wrong';
-                }
-
-                html += `
-                    <div class="${cardClass}" id="qcard_${q.id}">
-                        <div class="question-number">Questão ${index + 1} de ${quiz.questions.length}</div>
-                        <div class="question-text">${q.text}</div>
-                        <div class="options-grid">
-                            ${shuffled.options.map((opt, optIndex) => {
-                                const originalIndex = shuffled.mapping[optIndex];
-                                const isSelected = selectedOption === optIndex;
-                                const isConfirmed = isAnswered;
-                                const isCorrectOption = isConfirmed && originalIndex === q.correct;
-                                const isWrongOption = isConfirmed && isSelected && originalIndex !== q.correct;
-
-                                let classes = 'option-item';
-                                if (isSelected && !isConfirmed) classes += ' selected';
-                                if (isConfirmed) classes += ' confirmed';
-                                if (isCorrectOption) classes += ' confirmed-correct';
-                                if (isWrongOption) classes += ' confirmed-wrong';
-                                if (isConfirmed) classes += ' disabled';
-
-                                let resultIcon = '';
-                                if (isConfirmed) {
-                                    if (originalIndex === q.correct) resultIcon = '<i class="fas fa-check-circle"></i>';
-                                    else if (isSelected) resultIcon = '<i class="fas fa-times-circle"></i>';
-                                }
-
-                                const isDisabled = isConfirmed || quizCompleted;
-
-                                return `
-                                    <div class="${classes}" onclick="${!isDisabled ? `selectAnswer('${q.id}', ${optIndex})` : ''}">
-                                        <input type="radio" name="q_${q.id}" value="${optIndex}" ${isSelected ? 'checked' : ''} ${isDisabled ? 'disabled' : ''}>
-                                        <span class="option-letter">${String.fromCharCode(65 + optIndex)}</span>
-                                        <span class="option-text">${opt}</span>
-                                        ${resultIcon ? `<span class="result-icon">${resultIcon}</span>` : ''}
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                        <div class="answer-feedback ${isAnswered ? 'show' : ''} ${isCorrect ? 'correct' : 'wrong'}">
-                            ${isAnswered ? (isCorrect ? '✅ Resposta correta!' : `❌ Resposta incorreta. A correta é: ${shuffled.options[shuffled.mapping.indexOf(q.correct)]}`) : ''}
-                        </div>
-                    </div>
-                `;
-            });
-
-            html += `
-                <div class="quiz-actions">
-                    <div style="flex:1;">
-                        <div class="progress-info">
-                            <i class="fas fa-chart-simple"></i> Progresso: ${answeredCount}/${total} questões
-                            ${allConfirmed ? ' 🎉 Todas respondidas!' : ''}
-                        </div>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar-fill" style="width:${progress}%"></div>
-                        </div>
-                    </div>
-                    ${!allConfirmed ? `
-                        <button class="btn btn-success" onclick="confirmAllAnswers()" ${!hasAnswers ? 'disabled' : ''}>
-                            <i class="fas fa-check-double"></i> Confirmar Respostas
-                        </button>
-                    ` : ''}
-                    ${allConfirmed && !quizCompleted ? `
-                        <button class="btn btn-primary" onclick="showResults()">
-                            <i class="fas fa-chart-bar"></i> Ver Resultado
-                        </button>
-                    ` : ''}
-                    ${quizCompleted ? `
-                        <button class="btn btn-outline" onclick="resetQuiz()">
-                            <i class="fas fa-undo"></i> Refazer
-                        </button>
-                    ` : ''}
-                </div>
-            `;
-            return html;
-        }
-
-        function selectAnswer(questionId, optionIndex) {
-            if (quizCompleted) return;
-            answers[questionId] = optionIndex;
-            renderQuiz(currentQuizId);
-        }
-
-        function confirmAllAnswers() {
-            const quiz = quizzes.find(q => q.id === currentQuizId);
-            if (!quiz) return;
-            let hasAllAnswered = true;
-            quiz.questions.forEach(q => {
-                if (answers[q.id] === undefined) hasAllAnswered = false;
-            });
-            if (!hasAllAnswered) {
-                showToast('⚠️ Responda todas as questões!', 'warning');
-                return;
-            }
-            quiz.questions.forEach(q => {
-                const shuffled = getShuffledOptions(q);
-                const selected = answers[q.id];
-                if (selected !== undefined) {
-                    const originalIndex = shuffled.mapping[selected];
-                    confirmedAnswers[q.id] = originalIndex;
-                }
-            });
-            renderQuiz(currentQuizId);
-            showToast('✅ Respostas confirmadas!', 'success');
-        }
-
-        function showResults() {
-            quizCompleted = true;
-            renderQuiz(currentQuizId);
-            showToast('📊 Resultado final!', 'success');
-        }
-
-        function resetQuiz() {
-            resetQuizState();
-            renderQuiz(currentQuizId);
-            showToast('🔄 Quiz resetado!', 'warning');
-        }
-
-        // ====== RENDER RESULTS ======
-        function renderResults(quiz, container) {
-            let correct = 0;
-            quiz.questions.forEach(q => {
-                if (confirmedAnswers[q.id] === q.correct) correct++;
-            });
-            const total = quiz.questions.length;
-            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
-            const rating = getRating(correct, total);
-
-            let detailsHtml = '';
-            quiz.questions.forEach((q, index) => {
-                const shuffled = getShuffledOptions(q);
-                const userAnswer = confirmedAnswers[q.id];
-                const isCorrect = userAnswer === q.correct;
-                const correctText = shuffled.options[shuffled.mapping.indexOf(q.correct)];
-                const userText = userAnswer !== undefined ? shuffled.options[shuffled.mapping.indexOf(userAnswer)] : 'Não respondida';
-                detailsHtml += `
-                    <div class="question-card ${isCorrect ? 'answered-correct' : 'answered-wrong'}" style="text-align:left;margin-top:12px;">
-                        <div class="question-number">Questão ${index + 1}</div>
-                        <div class="question-text">${q.text}</div>
-                        <div style="padding:12px 16px;border-radius:var(--radius);background:white;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-                            <span>${isCorrect ? '✅' : '❌'} Sua resposta: ${userText}</span>
-                            <span style="color:var(--success);font-weight:600;">✔️ Correta: ${correctText}</span>
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = `
-                <div class="results-container">
-                    <div class="results-emoji">${rating.emoji}</div>
-                    <div class="results-score">${percentage}%</div>
-                    <div class="results-label">${rating.label}</div>
-                    <div style="font-size:16px;color:var(--gray-600);margin-top:4px;">${correct} de ${total} questões corretas</div>
-                    <div class="results-rating ${rating.class}" style="margin-top:8px;">
-                        <span style="font-size:24px;margin-right:8px;">${rating.emoji}</span>
-                        ${rating.description}
-                    </div>
-                    <div class="results-stats">
-                        <div class="results-stat"><div class="results-stat-value" style="color:var(--success);">${correct}</div><div class="results-stat-label">✅ Corretas</div></div>
-                        <div class="results-stat"><div class="results-stat-value" style="color:var(--danger);">${total - correct}</div><div class="results-stat-label">❌ Incorretas</div></div>
-                        <div class="results-stat"><div class="results-stat-value" style="color:var(--primary);">${percentage}%</div><div class="results-stat-label">📊 Aproveitamento</div></div>
-                    </div>
-                    <div class="results-revision">
-                        <h4><i class="fas fa-list-ul"></i> Revisão das respostas:</h4>
-                        ${detailsHtml}
-                    </div>
-                    <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="resetQuiz()"><i class="fas fa-undo"></i> Refazer Quiz</button>
-                        <button class="btn btn-outline" onclick="openRatingConfig()"><i class="fas fa-sliders-h"></i> Configurar Avaliações</button>
-                    </div>
-                </div>
-            `;
         }
 
         // ====== QUIZ CRUD ======
@@ -2211,7 +3414,6 @@
             let options = data ? data.options : ['', ''];
             const correct = data ? data.correct : 0;
 
-            // Garantir pelo menos 2 opções
             while (options.length < 2) {
                 options.push('');
             }
@@ -2225,14 +3427,14 @@
                         </button>
                     </div>
                 </div>
-                <input class="form-input" placeholder="Digite a questão..." value="${qText}" style="margin-bottom:12px;">
+                <input class="form-input" placeholder="Digite a questão..." value="${qText}" style="margin-bottom:10px;font-size:14px;">
                 <div class="options-editor" id="options_${index}">
                     ${options.map((opt, optIndex) => `
                         <div class="option-editor">
                             <span class="option-letter">${String.fromCharCode(65 + optIndex)}</span>
                             <input type="text" placeholder="Opção ${String.fromCharCode(65 + optIndex)}" value="${opt}">
                             <input type="radio" name="correct_${index}" value="${optIndex}" ${optIndex === correct ? 'checked' : ''}>
-                            <span style="font-size:12px;color:var(--gray-400);"><i class="fas fa-check"></i></span>
+                            <span style="font-size:11px;color:var(--gray-400);"><i class="fas fa-check"></i></span>
                             ${optIndex > 1 ? `<button class="remove-option" onclick="removeOption(this)"><i class="fas fa-times"></i></button>` : ''}
                         </div>
                     `).join('')}
@@ -2258,13 +3460,11 @@
                 <span class="option-letter">${letter}</span>
                 <input type="text" placeholder="Opção ${letter}" value="">
                 <input type="radio" name="correct_${index}" value="${newIndex}">
-                <span style="font-size:12px;color:var(--gray-400);"><i class="fas fa-check"></i></span>
+                <span style="font-size:11px;color:var(--gray-400);"><i class="fas fa-check"></i></span>
                 <button class="remove-option" onclick="removeOption(this)"><i class="fas fa-times"></i></button>
             `;
             optionsContainer.appendChild(div);
             updateOptionLetters(optionsContainer);
-            
-            // Scroll para a nova opção
             div.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
@@ -2345,11 +3545,14 @@
             saveData();
             closeModal('quizModal');
             resetQuizState();
-            renderQuiz(currentQuizId);
+            if (currentQuizId) openQuiz(currentQuizId);
+            else goHome();
         }
 
         function deleteQuiz(quizId) {
-            if (!confirm('Tem certeza que deseja excluir este quiz?')) return;
+            const quiz = quizzes.find(q => q.id === quizId);
+            if (!quiz) return;
+            if (!confirm(`Tem certeza que deseja excluir o quiz "${quiz.name}"?`)) return;
             quizzes = quizzes.filter(q => q.id !== quizId);
             if (currentQuizId === quizId) {
                 currentQuizId = quizzes.length > 0 ? quizzes[0].id : null;
@@ -2357,17 +3560,11 @@
             saveData();
             resetQuizState();
             if (currentQuizId) {
-                renderQuiz(currentQuizId);
+                openQuiz(currentQuizId);
             } else {
-                document.getElementById('contentArea').innerHTML = `
-                    <div style="text-align:center;padding:60px 20px;color:var(--gray-400);">
-                        <div style="font-size:64px;margin-bottom:16px;">🎯</div>
-                        <h3 style="color:var(--gray-700);">Nenhum quiz disponível</h3>
-                        <p>Crie um novo quiz para começar</p>
-                    </div>
-                `;
+                goHome();
             }
-            showToast('🗑️ Quiz excluído', 'warning');
+            showToast('🗑️ Quiz excluído com sucesso!', 'warning');
             closeDropdown();
         }
 
@@ -2410,7 +3607,7 @@
                 saveData();
                 closeModal('importModal');
                 resetQuizState();
-                renderQuiz(currentQuizId);
+                openQuiz(currentQuizId);
                 showToast('✅ Quiz importado!', 'success');
             } catch (e) {
                 showToast('⚠️ Erro: ' + e.message, 'error');
@@ -2442,8 +3639,43 @@
             }, 3500);
         }
 
-        // ====== INIT ======
-        document.addEventListener('DOMContentLoaded', init);
+        // ====== EVENTOS DE TECLADO ======
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsers();
+            
+            // Login
+            document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') handleLogin();
+            });
+            document.getElementById('loginUsername').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') document.getElementById('loginPassword').focus();
+            });
+
+            // Register
+            document.getElementById('registerPasswordConfirm').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') createAccount();
+            });
+            document.getElementById('registerPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') document.getElementById('registerPasswordConfirm').focus();
+            });
+            document.getElementById('registerUsername').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') document.getElementById('registerPassword').focus();
+            });
+
+            // Delete account
+            document.getElementById('deleteAccountPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') document.getElementById('deleteAccountUsername').focus();
+            });
+            document.getElementById('deleteAccountUsername').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') confirmDeleteAccount();
+            });
+
+            const autoLogged = checkAutoLogin();
+            if (!autoLogged) {
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('appContent').style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
