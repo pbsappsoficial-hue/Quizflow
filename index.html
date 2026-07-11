@@ -49,7 +49,6 @@
             padding: 0;
         }
 
-        /* ===== TOP BAR ===== */
         .top-bar {
             background: white;
             padding: 16px 32px;
@@ -105,7 +104,6 @@
             gap: 12px;
         }
 
-        /* ===== BUTTONS ===== */
         .btn {
             padding: 10px 20px;
             border: none;
@@ -168,28 +166,6 @@
             box-shadow: 0 8px 28px rgba(255, 23, 68, 0.4);
         }
 
-        .btn-warning {
-            background: linear-gradient(135deg, #FFD600, #F9A800);
-            color: var(--gray-900);
-            box-shadow: 0 4px 16px rgba(255, 214, 0, 0.3);
-        }
-
-        .btn-warning:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 28px rgba(255, 214, 0, 0.4);
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--gray-600);
-            padding: 8px 12px;
-        }
-
-        .btn-ghost:hover {
-            background: var(--gray-100);
-            color: var(--gray-900);
-        }
-
         .btn-sm {
             padding: 6px 14px;
             font-size: 13px;
@@ -234,7 +210,6 @@
             transform: none !important;
         }
 
-        /* ===== DROPDOWN MENU ===== */
         .dropdown {
             position: relative;
             display: inline-block;
@@ -299,7 +274,6 @@
             margin: 6px 12px;
         }
 
-        /* Toggle Switch */
         .toggle-switch {
             position: relative;
             width: 42px;
@@ -350,7 +324,6 @@
             flex: 1;
         }
 
-        /* ===== MAIN LAYOUT ===== */
         .main-layout {
             max-width: 1440px;
             margin: 0 auto;
@@ -360,7 +333,6 @@
             gap: 24px;
         }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             background: white;
             border-radius: var(--radius-lg);
@@ -486,7 +458,6 @@
             opacity: 0.5;
         }
 
-        /* ===== CONTENT ===== */
         .content {
             background: white;
             border-radius: var(--radius-lg);
@@ -497,7 +468,6 @@
             transition: var(--transition);
         }
 
-        /* ===== QUIZ HEADER ===== */
         .quiz-header {
             display: flex;
             justify-content: space-between;
@@ -529,14 +499,6 @@
             font-size: 14px;
         }
 
-        .quiz-header-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        /* ===== SHUFFLE CONTROLS ===== */
         .shuffle-controls {
             display: flex;
             align-items: center;
@@ -572,7 +534,6 @@
             flex: 1;
         }
 
-        /* ===== QUESTION CARD ===== */
         .question-card {
             background: var(--gray-50);
             border-radius: var(--radius);
@@ -615,7 +576,6 @@
             line-height: 1.5;
         }
 
-        /* ===== OPTIONS ===== */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -718,7 +678,6 @@
             100% { transform: scale(1) rotate(0); }
         }
 
-        /* ===== ANSWER FEEDBACK ===== */
         .answer-feedback {
             margin-top: 14px;
             padding: 14px 18px;
@@ -749,7 +708,6 @@
             border-left: 4px solid var(--danger);
         }
 
-        /* ===== QUIZ ACTIONS ===== */
         .quiz-actions {
             display: flex;
             gap: 12px;
@@ -783,7 +741,6 @@
             transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* ===== RESULTS ===== */
         .results-container {
             text-align: center;
             padding: 20px 0;
@@ -858,7 +815,6 @@
             margin-bottom: 16px;
         }
 
-        /* Rating styles */
         .rating-excelente {
             background: linear-gradient(135deg, #00C853, #00A844);
             color: white;
@@ -885,7 +841,6 @@
             box-shadow: 0 4px 16px rgba(255, 23, 68, 0.3);
         }
 
-        /* ===== CONFIG RATING MODAL ===== */
         .rating-config-item {
             display: flex;
             align-items: center;
@@ -964,48 +919,6 @@
             color: var(--primary);
         }
 
-        /* ===== BACKUP MODAL ===== */
-        .backup-code-display {
-            background: var(--gray-900);
-            color: #00FF41;
-            padding: 20px;
-            border-radius: var(--radius);
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            max-height: 400px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            word-break: break-all;
-            margin-bottom: 16px;
-            border: 2px solid var(--gray-700);
-        }
-
-        .backup-code-display::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .backup-code-display::-webkit-scrollbar-thumb {
-            background: var(--gray-600);
-            border-radius: 10px;
-        }
-
-        .backup-code-display::-webkit-scrollbar-track {
-            background: var(--gray-800);
-            border-radius: 10px;
-        }
-
-        .backup-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .backup-actions .btn {
-            flex: 1;
-            justify-content: center;
-            min-width: 120px;
-        }
-
         .backup-info {
             padding: 12px 16px;
             background: var(--gray-50);
@@ -1023,106 +936,18 @@
             font-size: 20px;
         }
 
-        /* ===== PASTE QUESTIONS MODAL ===== */
-        .paste-questions-area {
-            background: var(--gray-50);
-            border-radius: var(--radius);
-            padding: 16px;
-            margin-bottom: 16px;
-            border: 2px dashed var(--gray-300);
-            transition: var(--transition);
-        }
-
-        .paste-questions-area:hover {
-            border-color: var(--primary);
-            background: var(--primary-light);
-        }
-
-        .paste-questions-area textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 12px;
-            border: 2px solid var(--gray-200);
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            resize: vertical;
-            transition: var(--transition);
-            background: white;
-        }
-
-        .paste-questions-area textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px var(--primary-light);
-        }
-
-        .paste-questions-area .paste-help {
-            font-size: 12px;
-            color: var(--gray-500);
-            margin-top: 8px;
+        .backup-actions {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
-        .paste-questions-area .paste-help kbd {
-            background: var(--gray-200);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-family: 'Inter', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--gray-700);
+        .backup-actions .btn {
+            flex: 1;
+            justify-content: center;
+            min-width: 120px;
         }
 
-        .paste-preview {
-            background: white;
-            border-radius: var(--radius);
-            padding: 16px;
-            margin-top: 12px;
-            border: 1px solid var(--gray-200);
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-        }
-
-        .paste-preview.show {
-            display: block;
-            animation: fadeSlide 0.3s ease;
-        }
-
-        .paste-preview .preview-item {
-            padding: 8px 12px;
-            border-bottom: 1px solid var(--gray-100);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-        }
-
-        .paste-preview .preview-item:last-child {
-            border-bottom: none;
-        }
-
-        .paste-preview .preview-item .preview-number {
-            font-weight: 700;
-            color: var(--primary);
-            min-width: 30px;
-        }
-
-        .paste-preview .preview-item .preview-status {
-            font-size: 12px;
-            color: var(--success);
-            margin-left: auto;
-        }
-
-        .paste-preview .preview-item .preview-status.error {
-            color: var(--danger);
-        }
-
-        /* ===== MODAL ===== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -1243,7 +1068,6 @@
             font-size: 13px;
         }
 
-        /* ===== QUESTION EDITOR ===== */
         .question-editor {
             background: var(--gray-50);
             border-radius: var(--radius);
@@ -1269,6 +1093,12 @@
             color: var(--gray-700);
         }
 
+        .question-editor-header .header-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
         .options-editor {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1280,22 +1110,34 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            background: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .option-editor .option-letter {
+            font-weight: 700;
+            color: var(--gray-600);
+            font-size: 13px;
+            min-width: 20px;
         }
 
         .option-editor input[type="text"] {
             flex: 1;
-            padding: 8px 12px;
-            border: 2px solid var(--gray-200);
-            border-radius: 8px;
+            padding: 6px 8px;
+            border: none;
+            border-radius: 6px;
             font-family: 'Inter', sans-serif;
             font-size: 14px;
             transition: var(--transition);
-            background: white;
+            background: transparent;
         }
 
         .option-editor input[type="text"]:focus {
             outline: none;
-            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 2px var(--primary-light);
         }
 
         .option-editor input[type="radio"] {
@@ -1306,7 +1148,47 @@
             flex-shrink: 0;
         }
 
-        /* ===== TOAST ===== */
+        .option-editor .remove-option {
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: var(--transition);
+            font-size: 12px;
+        }
+
+        .option-editor .remove-option:hover {
+            background: #FFEBEE;
+            color: var(--danger);
+        }
+
+        .add-option-btn {
+            margin-top: 8px;
+            padding: 8px 16px;
+            border: 2px dashed var(--gray-300);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--gray-500);
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            transition: var(--transition);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-option-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
         .toast-container {
             position: fixed;
             bottom: 24px;
@@ -1340,18 +1222,15 @@
             to { transform: translateX(0) scale(1); opacity: 1; }
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .main-layout {
                 grid-template-columns: 1fr;
                 padding: 16px;
             }
-
             .sidebar {
                 position: static;
                 order: 2;
             }
-
             .quiz-list {
                 max-height: 200px;
             }
@@ -1361,73 +1240,48 @@
             .top-bar {
                 padding: 12px 16px;
             }
-
             .top-bar-inner {
                 flex-wrap: wrap;
             }
-
             .top-bar-right {
                 width: 100%;
                 justify-content: space-between;
             }
-
             .content {
                 padding: 16px;
             }
-
             .quiz-header {
                 flex-direction: column;
             }
-
-            .quiz-header-actions {
-                width: 100%;
-            }
-
-            .quiz-header-actions .btn {
-                flex: 1;
-                justify-content: center;
-                font-size: 12px;
-                padding: 8px 12px;
-            }
-
             .options-grid {
                 grid-template-columns: 1fr;
             }
-
             .options-editor {
                 grid-template-columns: 1fr;
             }
-
             .results-stats {
                 grid-template-columns: 1fr;
             }
-
             .modal {
                 padding: 20px;
             }
-
             .quiz-actions {
                 flex-direction: column;
             }
-
             .quiz-actions .progress-info {
                 text-align: center;
             }
-
             .quiz-actions .btn {
                 width: 100%;
                 justify-content: center;
             }
-
             .rating-config-item {
                 flex-wrap: wrap;
             }
-
             .rating-config-item .rating-range {
                 min-width: 100%;
                 text-align: left;
             }
-
             .backup-actions .btn {
                 min-width: 100%;
             }
@@ -1437,15 +1291,12 @@
             .top-bar-right .btn:not(.btn-primary) {
                 display: none;
             }
-
             .quiz-header-left h2 {
                 font-size: 20px;
             }
-
             .results-score {
                 font-size: 48px;
             }
-
             .shuffle-controls {
                 flex-direction: column;
                 align-items: stretch;
@@ -1455,7 +1306,6 @@
     </style>
 </head>
 <body>
-    <!-- ===== TOP BAR ===== -->
     <header class="top-bar">
         <div class="top-bar-inner">
             <a href="#" class="logo">
@@ -1463,37 +1313,24 @@
                 <span>QuizFlow</span>
             </a>
             <div class="top-bar-right">
-                <button class="btn btn-primary" onclick="openCreateQuiz()">
-                    <i class="fas fa-plus"></i> Novo Quiz
-                </button>
-                <button class="btn btn-outline btn-sm" onclick="exportQuiz()">
-                    <i class="fas fa-download"></i>
-                </button>
-                <button class="btn btn-outline btn-sm" onclick="openImportModal()">
-                    <i class="fas fa-upload"></i>
-                </button>
-                <!-- Dropdown Menu 3 Pontos -->
+                <button class="btn btn-primary" onclick="openCreateQuiz()"><i class="fas fa-plus"></i> Novo Quiz</button>
+                <button class="btn btn-outline btn-sm" onclick="exportQuiz()"><i class="fas fa-download"></i></button>
+                <button class="btn btn-outline btn-sm" onclick="openImportModal()"><i class="fas fa-upload"></i></button>
                 <div class="dropdown">
-                    <button class="btn-icon" onclick="toggleDropdown(event)" id="menuButton">
-                        <i class="fas fa-ellipsis-v"></i>
-                    </button>
+                    <button class="btn-icon" onclick="toggleDropdown(event)" id="menuButton"><i class="fas fa-ellipsis-v"></i></button>
                     <div class="dropdown-menu" id="dropdownMenu">
                         <button class="dropdown-menu-item" onclick="if(currentQuizId) { openEditQuiz(currentQuizId); closeDropdown(); }">
-                            <i class="fas fa-edit" style="color:var(--primary);"></i>
-                            Editar quiz
+                            <i class="fas fa-edit" style="color:var(--primary);"></i> Editar quiz
                         </button>
                         <button class="dropdown-menu-item" onclick="openRatingConfig(); closeDropdown();">
-                            <i class="fas fa-sliders-h" style="color:var(--warning);"></i>
-                            Configurar avaliações
+                            <i class="fas fa-sliders-h" style="color:var(--warning);"></i> Configurar avaliações
                         </button>
                         <div class="dropdown-divider"></div>
                         <button class="dropdown-menu-item" onclick="exportBackup(); closeDropdown();">
-                            <i class="fas fa-file-export" style="color:var(--success);"></i>
-                            Exportar backup completo
+                            <i class="fas fa-file-export" style="color:var(--success);"></i> Exportar backup
                         </button>
                         <button class="dropdown-menu-item" onclick="openImportBackup(); closeDropdown();">
-                            <i class="fas fa-file-import" style="color:var(--primary);"></i>
-                            Importar backup
+                            <i class="fas fa-file-import" style="color:var(--primary);"></i> Importar backup
                         </button>
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-menu-item" style="cursor:default;" onclick="event.stopPropagation();">
@@ -1505,17 +1342,14 @@
                             </label>
                         </div>
                         <button class="dropdown-menu-item" onclick="if(currentQuizId) reshuffleQuiz(); closeDropdown();">
-                            <i class="fas fa-rotate-right" style="color:var(--warning);"></i>
-                            Reembaralhar agora
+                            <i class="fas fa-rotate-right" style="color:var(--warning);"></i> Reembaralhar
                         </button>
                         <button class="dropdown-menu-item" onclick="if(currentQuizId) resetQuiz(); closeDropdown();">
-                            <i class="fas fa-undo" style="color:var(--warning);"></i>
-                            Resetar respostas
+                            <i class="fas fa-undo" style="color:var(--warning);"></i> Resetar respostas
                         </button>
                         <div class="dropdown-divider"></div>
                         <button class="dropdown-menu-item danger" onclick="if(currentQuizId) deleteQuiz(currentQuizId); closeDropdown();">
-                            <i class="fas fa-trash-alt"></i>
-                            Excluir quiz
+                            <i class="fas fa-trash-alt"></i> Excluir quiz
                         </button>
                     </div>
                 </div>
@@ -1523,32 +1357,24 @@
         </div>
     </header>
 
-    <!-- ===== MAIN LAYOUT ===== -->
     <div class="main-layout">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <span class="sidebar-title">📚 Seus Quizzes</span>
                 <span class="sidebar-count" id="quizCount">0</span>
             </div>
-            <div class="quiz-list" id="quizList">
-                <!-- Renderizado dinamicamente -->
-            </div>
+            <div class="quiz-list" id="quizList"></div>
         </aside>
-
-        <!-- Content -->
         <main class="content" id="contentArea">
             <div style="text-align:center;padding:60px 20px;color:var(--gray-400);">
                 <div style="font-size:64px;margin-bottom:16px;">🎯</div>
-                <h3 style="font-size:20px;font-weight:600;color:var(--gray-700);margin-bottom:8px;">
-                    Bem-vindo ao QuizFlow
-                </h3>
+                <h3 style="font-size:20px;font-weight:600;color:var(--gray-700);margin-bottom:8px;">Bem-vindo ao QuizFlow</h3>
                 <p>Crie um novo quiz ou selecione um existente</p>
             </div>
         </main>
     </div>
 
-    <!-- ===== MODAL CRIAÇÃO/EDIÇÃO ===== -->
+    <!-- MODAL CRIAÇÃO/EDIÇÃO -->
     <div class="modal-overlay" id="quizModal">
         <div class="modal">
             <div class="modal-header">
@@ -1568,28 +1394,6 @@
                             <span class="toggle-slider"></span>
                         </label>
                     </label>
-                    <span style="font-size:12px;color:var(--gray-500);">As opções das questões serão exibidas em ordem aleatória</span>
-                </div>
-                
-                <!-- Área para colar questões -->
-                <div class="paste-questions-area">
-                    <label class="form-label" style="margin-bottom:8px;">
-                        <i class="fas fa-paste" style="color:var(--primary);"></i> Colar questões em massa
-                    </label>
-                    <textarea id="pasteQuestionsInput" placeholder="Cole aqui as questões no formato:&#10;1. Qual é a capital do Brasil?&#10;A) São Paulo&#10;B) Rio de Janeiro&#10;C) Brasília&#10;D) Salvador&#10;Resposta: C&#10;&#10;2. Quanto é 2 + 2?&#10;A) 3&#10;B) 4&#10;C) 5&#10;D) 6&#10;Resposta: B"></textarea>
-                    <div class="paste-help">
-                        <span><i class="fas fa-info-circle"></i> Formatos suportados:</span>
-                        <kbd>1. Pergunta</kbd>
-                        <kbd>A) Opção 1</kbd>
-                        <kbd>B) Opção 2</kbd>
-                        <kbd>Resposta: A</kbd>
-                        <span style="margin-left:auto;">
-                            <button class="btn btn-primary btn-xs" onclick="parseAndAddQuestions()">
-                                <i class="fas fa-magic"></i> Identificar e Adicionar
-                            </button>
-                        </span>
-                    </div>
-                    <div id="pastePreview" class="paste-preview"></div>
                 </div>
 
                 <div id="questionsEditor"></div>
@@ -1604,7 +1408,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL CONFIGURAÇÃO DE AVALIAÇÕES ===== -->
+    <!-- MODAL CONFIGURAÇÃO DE AVALIAÇÕES -->
     <div class="modal-overlay" id="ratingConfigModal">
         <div class="modal">
             <div class="modal-header">
@@ -1614,46 +1418,33 @@
             <div class="modal-body">
                 <div class="rating-info-quiz">
                     <i class="fas fa-info-circle"></i>
-                    <span>Defina o número mínimo de acertos para cada classificação. 
-                    <strong>Total de questões: <span id="configTotalQuestions">0</span></strong></span>
+                    <span>Total de questões: <strong id="configTotalQuestions">0</strong></span>
                 </div>
-                <div id="ratingConfigList">
-                    <!-- Renderizado dinamicamente -->
-                </div>
-                <div style="margin-top:12px;padding:12px;background:var(--primary-light);border-radius:var(--radius);font-size:13px;color:var(--gray-700);">
-                    <i class="fas fa-info-circle"></i> 
-                    Os valores devem ser números entre 0 e o total de questões. A classificação "Excelente" usa o valor definido como mínimo.
-                </div>
+                <div id="ratingConfigList"></div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline" onclick="closeModal('ratingConfigModal')">Cancelar</button>
-                <button class="btn btn-primary" onclick="saveRatingConfig()"><i class="fas fa-save"></i> Salvar Configurações</button>
+                <button class="btn btn-primary" onclick="saveRatingConfig()"><i class="fas fa-save"></i> Salvar</button>
             </div>
         </div>
     </div>
 
-    <!-- ===== MODAL BACKUP ===== -->
+    <!-- MODAL BACKUP -->
     <div class="modal-overlay" id="backupModal">
         <div class="modal">
             <div class="modal-header">
-                <h2 class="modal-title" id="backupModalTitle">💾 Backup Completo</h2>
+                <h2 class="modal-title">💾 Backup Completo</h2>
                 <button class="modal-close" onclick="closeModal('backupModal')"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <div class="backup-info">
                     <i class="fas fa-info-circle"></i>
-                    <span id="backupInfoText">Copie o código abaixo para fazer backup de todos os seus dados.</span>
+                    <span id="backupInfoText">Copie o código abaixo para fazer backup.</span>
                 </div>
-                <div id="backupContent">
-                    <textarea class="form-input form-textarea" id="backupTextarea" readonly style="font-family:'Courier New',monospace;font-size:13px;min-height:200px;"></textarea>
-                </div>
+                <textarea class="form-input form-textarea" id="backupTextarea" readonly style="font-family:'Courier New',monospace;font-size:13px;min-height:200px;"></textarea>
                 <div class="backup-actions">
-                    <button class="btn btn-primary" onclick="copyBackupCode()">
-                        <i class="fas fa-copy"></i> Copiar código
-                    </button>
-                    <button class="btn btn-success" onclick="downloadBackupFile()">
-                        <i class="fas fa-download"></i> Baixar arquivo
-                    </button>
+                    <button class="btn btn-primary" onclick="copyBackupCode()"><i class="fas fa-copy"></i> Copiar</button>
+                    <button class="btn btn-success" onclick="downloadBackupFile()"><i class="fas fa-download"></i> Baixar</button>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1662,7 +1453,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL IMPORTAR BACKUP ===== -->
+    <!-- MODAL IMPORTAR BACKUP -->
     <div class="modal-overlay" id="importBackupModal">
         <div class="modal">
             <div class="modal-header">
@@ -1672,11 +1463,11 @@
             <div class="modal-body">
                 <div class="backup-info">
                     <i class="fas fa-exclamation-triangle" style="color:var(--warning);"></i>
-                    <span><strong>Atenção:</strong> Isso substituirá todos os dados atuais! Faça um backup antes de continuar.</span>
+                    <span><strong>Atenção:</strong> Isso substituirá todos os dados atuais!</span>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Cole o código de backup</label>
-                    <textarea class="form-input form-textarea" id="importBackupTextarea" placeholder="Cole aqui o código JSON do backup..." style="min-height:200px;"></textarea>
+                    <textarea class="form-input form-textarea" id="importBackupTextarea" placeholder="Cole aqui o código JSON..." style="min-height:150px;"></textarea>
                 </div>
                 <div style="display:flex;gap:12px;flex-wrap:wrap;">
                     <button class="btn btn-outline" onclick="importBackupFromFile()" style="flex:1;">
@@ -1687,14 +1478,12 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline" onclick="closeModal('importBackupModal')">Cancelar</button>
-                <button class="btn btn-danger" onclick="processImportBackup()">
-                    <i class="fas fa-upload"></i> Importar Backup
-                </button>
+                <button class="btn btn-danger" onclick="processImportBackup()"><i class="fas fa-upload"></i> Importar</button>
             </div>
         </div>
     </div>
 
-    <!-- ===== MODAL IMPORTAÇÃO QUIZ ===== -->
+    <!-- MODAL IMPORTAÇÃO QUIZ -->
     <div class="modal-overlay" id="importModal">
         <div class="modal">
             <div class="modal-header">
@@ -1714,7 +1503,6 @@
         </div>
     </div>
 
-    <!-- ===== TOAST ===== -->
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
@@ -1728,7 +1516,6 @@
         let isShuffled = true;
         let editingQuizId = null;
 
-        // ====== CONFIGURAÇÕES DE AVALIAÇÃO ======
         let ratingConfig = {
             excelente: 3,
             muitoBom: 2,
@@ -1740,40 +1527,18 @@
         // ====== SISTEMA DE AVALIAÇÃO ======
         function getRating(correctCount, totalQuestions) {
             if (totalQuestions === 0) {
-                return {
-                    key: 'sem',
-                    label: 'Sem avaliação',
-                    emoji: '📝',
-                    class: 'rating-regular',
-                    description: 'Nenhuma questão respondida'
-                };
+                return { key: 'sem', label: 'Sem avaliação', emoji: '📝', class: 'rating-regular', description: 'Nenhuma questão respondida' };
             }
-
             const ratings = [
-                { key: 'excelente', label: 'Excelente! 🏆', emoji: '🌟', class: 'rating-excelente', 
-                  description: 'Performance extraordinária! Você é um verdadeiro expert!', min: ratingConfig.excelente },
-                { key: 'muitoBom', label: 'Muito Bom! 👏', emoji: '😊', class: 'rating-muito-bom', 
-                  description: 'Ótimo desempenho! Continue assim!', min: ratingConfig.muitoBom },
-                { key: 'bom', label: 'Bom! 👍', emoji: '🤔', class: 'rating-bom', 
-                  description: 'Bom trabalho! Com mais prática você chega lá!', min: ratingConfig.bom },
-                { key: 'regular', label: 'Regular 😐', emoji: '📚', class: 'rating-regular', 
-                  description: 'Hora de revisar o conteúdo! Continue estudando!', min: ratingConfig.regular }
+                { key: 'excelente', label: 'Excelente! 🏆', emoji: '🌟', class: 'rating-excelente', description: 'Performance extraordinária!', min: ratingConfig.excelente },
+                { key: 'muitoBom', label: 'Muito Bom! 👏', emoji: '😊', class: 'rating-muito-bom', description: 'Ótimo desempenho!', min: ratingConfig.muitoBom },
+                { key: 'bom', label: 'Bom! 👍', emoji: '🤔', class: 'rating-bom', description: 'Bom trabalho!', min: ratingConfig.bom },
+                { key: 'regular', label: 'Regular 😐', emoji: '📚', class: 'rating-regular', description: 'Hora de revisar!', min: ratingConfig.regular }
             ];
-
             for (let r of ratings) {
-                if (correctCount >= r.min) {
-                    return r;
-                }
+                if (correctCount >= r.min) return r;
             }
-
-            return {
-                key: 'ruim',
-                label: 'Precisa Melhorar 😅',
-                emoji: '💪',
-                class: 'rating-ruim',
-                description: 'Não desanime! A prática leva à perfeição!',
-                min: 0
-            };
+            return { key: 'ruim', label: 'Precisa Melhorar 😅', emoji: '💪', class: 'rating-ruim', description: 'Não desanime!', min: 0 };
         }
 
         function getRatingInfo(key) {
@@ -1785,117 +1550,6 @@
                 ruim: { label: 'Precisa Melhorar', emoji: '💪', default: 0 }
             };
             return ratings[key] || ratings.regular;
-        }
-
-        // ====== PARSER DE QUESTÕES ======
-        function parseQuestionsFromText(text) {
-            const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-            const questions = [];
-            let currentQuestion = null;
-            let currentOptions = [];
-            let currentCorrect = null;
-
-            // Padrões para identificar linhas
-            const questionPattern = /^(\d+)[\.\)]\s*(.+)/;
-            const optionPattern = /^([A-Da-d])[\.\)]\s*(.+)/;
-            const answerPattern = /^resposta:\s*([A-Da-d])/i;
-
-            for (let line of lines) {
-                // Verificar se é uma resposta
-                const answerMatch = line.match(answerPattern);
-                if (answerMatch) {
-                    if (currentQuestion) {
-                        currentCorrect = answerMatch[1].toUpperCase();
-                    }
-                    continue;
-                }
-
-                // Verificar se é uma questão
-                const questionMatch = line.match(questionPattern);
-                if (questionMatch) {
-                    // Salvar questão anterior se existir
-                    if (currentQuestion && currentOptions.length > 0) {
-                        questions.push({
-                            text: currentQuestion,
-                            options: currentOptions,
-                            correct: currentCorrect ? currentOptions.indexOf(currentCorrect) : 0
-                        });
-                    }
-                    currentQuestion = questionMatch[2];
-                    currentOptions = [];
-                    currentCorrect = null;
-                    continue;
-                }
-
-                // Verificar se é uma opção
-                const optionMatch = line.match(optionPattern);
-                if (optionMatch) {
-                    const letter = optionMatch[1].toUpperCase();
-                    const text = optionMatch[2];
-                    currentOptions.push({ letter, text });
-                    continue;
-                }
-
-                // Se não encaixou em nenhum padrão e tem uma questão atual, adicionar como continuação
-                if (currentQuestion) {
-                    currentQuestion += ' ' + line;
-                }
-            }
-
-            // Salvar última questão
-            if (currentQuestion && currentOptions.length > 0) {
-                questions.push({
-                    text: currentQuestion,
-                    options: currentOptions.map(o => o.text),
-                    correct: currentCorrect ? currentOptions.findIndex(o => o.letter === currentCorrect) : 0
-                });
-            }
-
-            return questions;
-        }
-
-        function parseAndAddQuestions() {
-            const textarea = document.getElementById('pasteQuestionsInput');
-            const text = textarea.value.trim();
-            
-            if (!text) {
-                showToast('⚠️ Cole as questões primeiro!', 'warning');
-                return;
-            }
-
-            const parsedQuestions = parseQuestionsFromText(text);
-            
-            if (parsedQuestions.length === 0) {
-                showToast('⚠️ Nenhuma questão identificada. Verifique o formato.', 'error');
-                return;
-            }
-
-            // Mostrar preview
-            const preview = document.getElementById('pastePreview');
-            preview.innerHTML = parsedQuestions.map((q, i) => `
-                <div class="preview-item">
-                    <span class="preview-number">#${i + 1}</span>
-                    <span>${q.text.substring(0, 50)}${q.text.length > 50 ? '...' : ''}</span>
-                    <span class="preview-status">
-                        <i class="fas fa-check-circle"></i> ${q.options.length} opções
-                    </span>
-                </div>
-            `).join('');
-            preview.classList.add('show');
-
-            // Adicionar questões ao editor
-            parsedQuestions.forEach(q => {
-                addQuestionEditor({
-                    text: q.text,
-                    options: q.options,
-                    correct: q.correct
-                });
-            });
-
-            // Limpar textarea
-            textarea.value = '';
-            
-            showToast(`✅ ${parsedQuestions.length} questões identificadas e adicionadas!`, 'success');
         }
 
         // ====== INIT ======
@@ -1953,24 +1607,9 @@
                 id: 'default_' + Date.now(),
                 name: 'Quiz de Exemplo',
                 questions: [
-                    {
-                        id: 'q1_' + Date.now(),
-                        text: 'Qual é a capital do Brasil?',
-                        options: ['São Paulo', 'Rio de Janeiro', 'Brasília', 'Salvador'],
-                        correct: 2
-                    },
-                    {
-                        id: 'q2_' + Date.now(),
-                        text: 'Quanto é 2 + 2?',
-                        options: ['3', '4', '5', '6'],
-                        correct: 1
-                    },
-                    {
-                        id: 'q3_' + Date.now(),
-                        text: 'Qual destes é um planeta?',
-                        options: ['Lua', 'Sol', 'Marte', 'Estrela'],
-                        correct: 2
-                    }
+                    { id: 'q1_' + Date.now(), text: 'Qual é a capital do Brasil?', options: ['São Paulo', 'Rio de Janeiro', 'Brasília', 'Salvador'], correct: 2 },
+                    { id: 'q2_' + Date.now(), text: 'Quanto é 2 + 2?', options: ['3', '4', '5', '6'], correct: 1 },
+                    { id: 'q3_' + Date.now(), text: 'Qual destes é um planeta?', options: ['Lua', 'Sol', 'Marte', 'Estrela'], correct: 2 }
                 ]
             };
         }
@@ -1990,11 +1629,10 @@
                 totalQuizzes: quizzes.length,
                 totalQuestions: quizzes.reduce((sum, q) => sum + q.questions.length, 0)
             };
-
             const json = JSON.stringify(data, null, 2);
             document.getElementById('backupTextarea').value = json;
             document.getElementById('backupInfoText').textContent = 
-                `📊 Backup com ${data.totalQuizzes} quizzes e ${data.totalQuestions} questões. Exportado em ${new Date(data.exportedAt).toLocaleString()}`;
+                `📊 ${data.totalQuizzes} quizzes, ${data.totalQuestions} questões. Exportado em ${new Date(data.exportedAt).toLocaleString()}`;
             document.getElementById('backupModal').classList.add('active');
             closeDropdown();
         }
@@ -2003,7 +1641,7 @@
             const textarea = document.getElementById('backupTextarea');
             textarea.select();
             navigator.clipboard.writeText(textarea.value).then(() => {
-                showToast('✅ Código copiado para a área de transferência!', 'success');
+                showToast('✅ Código copiado!', 'success');
             }).catch(() => {
                 document.execCommand('copy');
                 showToast('✅ Código copiado!', 'success');
@@ -2012,7 +1650,6 @@
 
         function downloadBackupFile() {
             const textarea = document.getElementById('backupTextarea');
-            const data = JSON.parse(textarea.value);
             const blob = new Blob([textarea.value], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -2020,7 +1657,7 @@
             a.download = `quizflow_backup_${new Date().toISOString().slice(0,10)}.json`;
             a.click();
             URL.revokeObjectURL(url);
-            showToast('📥 Backup baixado com sucesso!', 'success');
+            showToast('📥 Backup baixado!', 'success');
         }
 
         function openImportBackup() {
@@ -2036,16 +1673,15 @@
         function handleBackupFile(event) {
             const file = event.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
                     const content = e.target.result;
                     JSON.parse(content);
                     document.getElementById('importBackupTextarea').value = content;
-                    showToast('📄 Arquivo carregado com sucesso!', 'success');
+                    showToast('📄 Arquivo carregado!', 'success');
                 } catch (err) {
-                    showToast('⚠️ Arquivo inválido. Certifique-se de que é um JSON válido.', 'error');
+                    showToast('⚠️ Arquivo inválido.', 'error');
                 }
             };
             reader.readAsText(file);
@@ -2055,40 +1691,28 @@
         function processImportBackup() {
             const input = document.getElementById('importBackupTextarea').value.trim();
             if (!input) {
-                showToast('⚠️ Cole o código de backup ou selecione um arquivo', 'error');
+                showToast('⚠️ Cole o código de backup', 'error');
                 return;
             }
-
             try {
                 const data = JSON.parse(input);
-                
                 if (!data.quizzes || !Array.isArray(data.quizzes)) {
-                    showToast('⚠️ Backup inválido: "quizzes" não encontrado ou não é um array', 'error');
+                    showToast('⚠️ Backup inválido', 'error');
                     return;
                 }
-
-                if (!data.ratingConfig) {
-                    showToast('⚠️ Backup inválido: "ratingConfig" não encontrado', 'error');
-                    return;
-                }
-
                 const totalQuizzes = data.quizzes.length;
                 const totalQuestions = data.quizzes.reduce((sum, q) => sum + (q.questions ? q.questions.length : 0), 0);
-                
-                if (!confirm(`⚠️ Isso substituirá TODOS os dados atuais!\n\n📊 Novo backup contém:\n• ${totalQuizzes} quizzes\n• ${totalQuestions} questões\n\nDeseja continuar?`)) {
+                if (!confirm(`⚠️ Isso substituirá TODOS os dados atuais!\n\n📊 ${totalQuizzes} quizzes, ${totalQuestions} questões\n\nDeseja continuar?`)) {
                     return;
                 }
-
                 quizzes = data.quizzes;
                 ratingConfig = data.ratingConfig;
                 if (data.isShuffled !== undefined) {
                     isShuffled = data.isShuffled;
                     document.getElementById('shuffleToggle').checked = isShuffled;
                 }
-
                 resetQuizState();
                 saveData();
-                
                 if (quizzes.length > 0) {
                     currentQuizId = quizzes[0].id;
                     renderQuiz(currentQuizId);
@@ -2098,16 +1722,13 @@
                         <div style="text-align:center;padding:60px 20px;color:var(--gray-400);">
                             <div style="font-size:64px;margin-bottom:16px;">📭</div>
                             <h3 style="color:var(--gray-700);">Nenhum quiz no backup</h3>
-                            <p>O backup foi importado mas não contém quizzes</p>
                         </div>
                     `;
                 }
-
                 closeModal('importBackupModal');
-                showToast(`✅ Backup importado com sucesso! ${totalQuizzes} quizzes carregados.`, 'success');
-                
+                showToast(`✅ Backup importado! ${totalQuizzes} quizzes.`, 'success');
             } catch (e) {
-                showToast('⚠️ Erro ao importar backup: ' + e.message, 'error');
+                showToast('⚠️ Erro: ' + e.message, 'error');
             }
         }
 
@@ -2130,21 +1751,13 @@
                 { key: 'regular', label: 'Regular', emoji: '📚', color: '#FF9800' },
                 { key: 'ruim', label: 'Precisa Melhorar', emoji: '💪', color: '#FF1744' }
             ];
-
             container.innerHTML = ratings.map((r, index) => {
                 const value = ratingConfig[r.key] || 0;
                 const prevValue = index > 0 ? ratingConfig[ratings[index - 1].key] : totalQuestions;
-                const nextValue = index < ratings.length - 1 ? ratingConfig[ratings[index + 1].key] : 0;
-                
                 let range = '';
-                if (index === 0) {
-                    range = `${value} - ${totalQuestions} acertos`;
-                } else if (index === ratings.length - 1) {
-                    range = `0 - ${value} acertos`;
-                } else {
-                    range = `${value} - ${prevValue - 1} acertos`;
-                }
-
+                if (index === 0) range = `${value} - ${totalQuestions} acertos`;
+                else if (index === ratings.length - 1) range = `0 - ${value} acertos`;
+                else range = `${value} - ${prevValue - 1} acertos`;
                 return `
                     <div class="rating-config-item">
                         <span class="rating-icon">${r.emoji}</span>
@@ -2152,9 +1765,7 @@
                             <div class="rating-name" style="color:${r.color};">${r.label}</div>
                             <div class="rating-desc">Mínimo de acertos</div>
                         </div>
-                        <input type="number" id="rating_${r.key}" value="${value}" 
-                               min="0" max="${totalQuestions}" 
-                               onchange="validateRating('${r.key}', ${totalQuestions})">
+                        <input type="number" id="rating_${r.key}" value="${value}" min="0" max="${totalQuestions}" onchange="validateRating('${r.key}', ${totalQuestions})">
                         <span class="rating-range">${range}</span>
                     </div>
                 `;
@@ -2165,91 +1776,50 @@
             const input = document.getElementById(`rating_${key}`);
             let value = parseInt(input.value) || 0;
             value = Math.min(totalQuestions, Math.max(0, value));
-            
             const ratings = ['excelente', 'muitoBom', 'bom', 'regular', 'ruim'];
             const index = ratings.indexOf(key);
-            
             if (index === 0) {
                 const next = parseInt(document.getElementById('rating_muitoBom').value) || 0;
-                if (value <= next) {
-                    input.value = Math.min(next + 1, totalQuestions);
-                    showToast(`⚠️ Excelente deve ter mais acertos que Muito Bom`, 'warning');
-                    return;
-                }
-                if (value > totalQuestions) {
-                    input.value = totalQuestions;
-                    showToast(`⚠️ Máximo é ${totalQuestions} acertos`, 'warning');
-                    return;
-                }
+                if (value <= next) { input.value = Math.min(next + 1, totalQuestions); showToast(`⚠️ Excelente > Muito Bom`, 'warning'); return; }
             } else if (index === ratings.length - 1) {
                 const prev = parseInt(document.getElementById('rating_regular').value) || 0;
-                if (value >= prev) {
-                    input.value = Math.max(prev - 1, 0);
-                    showToast(`⚠️ Precisa Melhorar deve ter menos acertos que Regular`, 'warning');
-                    return;
-                }
+                if (value >= prev) { input.value = Math.max(prev - 1, 0); showToast(`⚠️ Regular > Precisa Melhorar`, 'warning'); return; }
             } else {
                 const prev = parseInt(document.getElementById(`rating_${ratings[index - 1]}`).value) || totalQuestions;
                 const next = parseInt(document.getElementById(`rating_${ratings[index + 1]}`).value) || 0;
-                if (value >= prev) {
-                    input.value = Math.min(prev - 1, totalQuestions);
-                    showToast(`⚠️ ${getRatingInfo(key).label} deve ter menos acertos que ${getRatingInfo(ratings[index - 1]).label}`, 'warning');
-                    return;
-                }
-                if (value <= next) {
-                    input.value = Math.min(next + 1, totalQuestions);
-                    showToast(`⚠️ ${getRatingInfo(key).label} deve ter mais acertos que ${getRatingInfo(ratings[index + 1]).label}`, 'warning');
-                    return;
-                }
+                if (value >= prev) { input.value = Math.min(prev - 1, totalQuestions); showToast(`⚠️ Ordem incorreta`, 'warning'); return; }
+                if (value <= next) { input.value = Math.min(next + 1, totalQuestions); showToast(`⚠️ Ordem incorreta`, 'warning'); return; }
             }
-            
             input.value = value;
         }
 
         function saveRatingConfig() {
             const quiz = quizzes.find(q => q.id === currentQuizId);
             const totalQuestions = quiz ? quiz.questions.length : 0;
-            
             const ratings = ['excelente', 'muitoBom', 'bom', 'regular', 'ruim'];
             let valid = true;
             let newConfig = {};
-            
             ratings.forEach(key => {
                 const input = document.getElementById(`rating_${key}`);
                 const value = parseInt(input.value) || 0;
                 if (value < 0 || value > totalQuestions) {
-                    showToast(`⚠️ ${getRatingInfo(key).label} deve estar entre 0 e ${totalQuestions}`, 'error');
+                    showToast(`⚠️ ${getRatingInfo(key).label} entre 0 e ${totalQuestions}`, 'error');
                     valid = false;
                     return;
                 }
                 newConfig[key] = value;
             });
-            
-            if (newConfig.excelente <= newConfig.muitoBom) {
-                showToast('⚠️ Excelente deve ter mais acertos que Muito Bom', 'error');
+            if (newConfig.excelente <= newConfig.muitoBom || newConfig.muitoBom <= newConfig.bom || 
+                newConfig.bom <= newConfig.regular || newConfig.regular <= newConfig.ruim) {
+                showToast('⚠️ Mantenha a ordem: Excelente > Muito Bom > Bom > Regular > Ruim', 'error');
                 valid = false;
             }
-            if (newConfig.muitoBom <= newConfig.bom) {
-                showToast('⚠️ Muito Bom deve ter mais acertos que Bom', 'error');
-                valid = false;
-            }
-            if (newConfig.bom <= newConfig.regular) {
-                showToast('⚠️ Bom deve ter mais acertos que Regular', 'error');
-                valid = false;
-            }
-            if (newConfig.regular <= newConfig.ruim) {
-                showToast('⚠️ Regular deve ter mais acertos que Precisa Melhorar', 'error');
-                valid = false;
-            }
-            
             if (valid) {
                 ratingConfig = newConfig;
                 saveData();
                 closeModal('ratingConfigModal');
-                showToast('✅ Configurações de avaliação salvas!', 'success');
-                if (quizCompleted) {
-                    renderQuiz(currentQuizId);
-                }
+                showToast('✅ Configurações salvas!', 'success');
+                if (quizCompleted) renderQuiz(currentQuizId);
             }
         }
 
@@ -2269,9 +1839,7 @@
                 text: opt,
                 isCorrect: index === question.correct
             }));
-
             const shuffled = shuffleArray(optionMap);
-
             return {
                 options: shuffled.map(item => item.text),
                 correct: shuffled.findIndex(item => item.isCorrect),
@@ -2296,9 +1864,7 @@
             return shuffledOptions[key];
         }
 
-        function resetShuffledOptions() {
-            shuffledOptions = {};
-        }
+        function resetShuffledOptions() { shuffledOptions = {}; }
 
         function toggleShuffle() {
             isShuffled = document.getElementById('shuffleToggle').checked;
@@ -2347,7 +1913,6 @@
                 `;
                 return;
             }
-
             container.innerHTML = quizzes.map(q => `
                 <div class="quiz-item ${q.id === currentQuizId ? 'active' : ''}" onclick="selectQuiz('${q.id}')">
                     <div class="quiz-item-info">
@@ -2367,7 +1932,6 @@
             renderQuiz(id);
         }
 
-        // ====== RESET STATE ======
         function resetQuizState() {
             answers = {};
             confirmedAnswers = {};
@@ -2387,14 +1951,11 @@
                 `;
                 return;
             }
-
             const container = document.getElementById('contentArea');
-
             if (quizCompleted) {
                 renderResults(quiz, container);
                 return;
             }
-
             let html = `
                 <div class="quiz-header">
                     <div class="quiz-header-left">
@@ -2402,11 +1963,10 @@
                             ${quiz.name}
                             ${isShuffled ? '<span class="shuffle-badge" style="font-size:11px;padding:2px 10px;"><i class="fas fa-random"></i> Embaralhado</span>' : '<span class="shuffle-badge inactive" style="font-size:11px;padding:2px 10px;"><i class="fas fa-ban"></i> Sem embaralhamento</span>'}
                         </h2>
-                        <p>${quiz.questions.length} questões • Modo resposta</p>
+                        <p>${quiz.questions.length} questões</p>
                     </div>
                 </div>
             `;
-
             html += renderPlayMode(quiz);
             container.innerHTML = html;
         }
@@ -2427,7 +1987,7 @@
                     </span>
                     <span class="shuffle-status">
                         <i class="fas fa-info-circle"></i>
-                        ${isShuffled ? 'As opções estão embaralhadas para cada questão' : 'As opções estão na ordem original'}
+                        ${isShuffled ? 'Opções embaralhadas' : 'Ordem original'}
                     </span>
                 </div>
             `;
@@ -2491,7 +2051,7 @@
                 <div class="quiz-actions">
                     <div style="flex:1;">
                         <div class="progress-info">
-                            <i class="fas fa-chart-simple"></i> Progresso: ${answeredCount}/${total} questões confirmadas
+                            <i class="fas fa-chart-simple"></i> Progresso: ${answeredCount}/${total} questões
                             ${allConfirmed ? ' 🎉 Todas respondidas!' : ''}
                         </div>
                         <div class="progress-bar-container">
@@ -2515,7 +2075,6 @@
                     ` : ''}
                 </div>
             `;
-
             return html;
         }
 
@@ -2528,19 +2087,14 @@
         function confirmAllAnswers() {
             const quiz = quizzes.find(q => q.id === currentQuizId);
             if (!quiz) return;
-
             let hasAllAnswered = true;
             quiz.questions.forEach(q => {
-                if (answers[q.id] === undefined) {
-                    hasAllAnswered = false;
-                }
+                if (answers[q.id] === undefined) hasAllAnswered = false;
             });
-
             if (!hasAllAnswered) {
-                showToast('⚠️ Responda todas as questões antes de confirmar!', 'warning');
+                showToast('⚠️ Responda todas as questões!', 'warning');
                 return;
             }
-
             quiz.questions.forEach(q => {
                 const shuffled = getShuffledOptions(q);
                 const selected = answers[q.id];
@@ -2549,15 +2103,14 @@
                     confirmedAnswers[q.id] = originalIndex;
                 }
             });
-
             renderQuiz(currentQuizId);
-            showToast('✅ Todas as respostas confirmadas!', 'success');
+            showToast('✅ Respostas confirmadas!', 'success');
         }
 
         function showResults() {
             quizCompleted = true;
             renderQuiz(currentQuizId);
-            showToast('📊 Quiz finalizado! Veja seu resultado.', 'success');
+            showToast('📊 Resultado final!', 'success');
         }
 
         function resetQuiz() {
@@ -2574,7 +2127,6 @@
             });
             const total = quiz.questions.length;
             const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
-
             const rating = getRating(correct, total);
 
             let detailsHtml = '';
@@ -2584,7 +2136,6 @@
                 const isCorrect = userAnswer === q.correct;
                 const correctText = shuffled.options[shuffled.mapping.indexOf(q.correct)];
                 const userText = userAnswer !== undefined ? shuffled.options[shuffled.mapping.indexOf(userAnswer)] : 'Não respondida';
-
                 detailsHtml += `
                     <div class="question-card ${isCorrect ? 'answered-correct' : 'answered-wrong'}" style="text-align:left;margin-top:12px;">
                         <div class="question-number">Questão ${index + 1}</div>
@@ -2602,26 +2153,15 @@
                     <div class="results-emoji">${rating.emoji}</div>
                     <div class="results-score">${percentage}%</div>
                     <div class="results-label">${rating.label}</div>
-                    <div style="font-size:16px;color:var(--gray-600);margin-top:4px;">
-                        ${correct} de ${total} questões corretas
-                    </div>
+                    <div style="font-size:16px;color:var(--gray-600);margin-top:4px;">${correct} de ${total} questões corretas</div>
                     <div class="results-rating ${rating.class}" style="margin-top:8px;">
                         <span style="font-size:24px;margin-right:8px;">${rating.emoji}</span>
                         ${rating.description}
                     </div>
                     <div class="results-stats">
-                        <div class="results-stat">
-                            <div class="results-stat-value" style="color:var(--success);">${correct}</div>
-                            <div class="results-stat-label">✅ Corretas</div>
-                        </div>
-                        <div class="results-stat">
-                            <div class="results-stat-value" style="color:var(--danger);">${total - correct}</div>
-                            <div class="results-stat-label">❌ Incorretas</div>
-                        </div>
-                        <div class="results-stat">
-                            <div class="results-stat-value" style="color:var(--primary);">${percentage}%</div>
-                            <div class="results-stat-label">📊 Aproveitamento</div>
-                        </div>
+                        <div class="results-stat"><div class="results-stat-value" style="color:var(--success);">${correct}</div><div class="results-stat-label">✅ Corretas</div></div>
+                        <div class="results-stat"><div class="results-stat-value" style="color:var(--danger);">${total - correct}</div><div class="results-stat-label">❌ Incorretas</div></div>
+                        <div class="results-stat"><div class="results-stat-value" style="color:var(--primary);">${percentage}%</div><div class="results-stat-label">📊 Aproveitamento</div></div>
                     </div>
                     <div class="results-revision">
                         <h4><i class="fas fa-list-ul"></i> Revisão das respostas:</h4>
@@ -2642,8 +2182,6 @@
             document.getElementById('questionsEditor').innerHTML = '';
             document.getElementById('modalShuffleToggle').checked = isShuffled;
             editingQuizId = null;
-            document.getElementById('pasteQuestionsInput').value = '';
-            document.getElementById('pastePreview').classList.remove('show');
             document.getElementById('quizModal').classList.add('active');
             addQuestionEditor();
             closeDropdown();
@@ -2652,19 +2190,12 @@
         function openEditQuiz(quizId) {
             const quiz = quizzes.find(q => q.id === quizId);
             if (!quiz) return;
-
             document.getElementById('modalTitle').textContent = '✏️ Editar Quiz';
             document.getElementById('quizNameInput').value = quiz.name;
             document.getElementById('questionsEditor').innerHTML = '';
             document.getElementById('modalShuffleToggle').checked = isShuffled;
             editingQuizId = quizId;
-            document.getElementById('pasteQuestionsInput').value = '';
-            document.getElementById('pastePreview').classList.remove('show');
-
-            quiz.questions.forEach(q => {
-                addQuestionEditor(q);
-            });
-
+            quiz.questions.forEach(q => { addQuestionEditor(q); });
             document.getElementById('quizModal').classList.add('active');
             closeDropdown();
         }
@@ -2672,46 +2203,106 @@
         function addQuestionEditor(data = null) {
             const container = document.getElementById('questionsEditor');
             const index = container.children.length;
-
             const div = document.createElement('div');
             div.className = 'question-editor';
             div.dataset.index = index;
-
+            
             const qText = data ? data.text : '';
-            const options = data ? data.options : ['', '', '', ''];
+            let options = data ? data.options : ['', ''];
             const correct = data ? data.correct : 0;
+
+            // Garantir pelo menos 2 opções
+            while (options.length < 2) {
+                options.push('');
+            }
 
             div.innerHTML = `
                 <div class="question-editor-header">
                     <h4>Questão ${index + 1}</h4>
-                    <button class="btn btn-danger btn-xs" onclick="removeQuestionEditor(this)">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
+                    <div class="header-actions">
+                        <button class="btn btn-danger btn-xs" onclick="removeQuestionEditor(this)">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
                 </div>
                 <input class="form-input" placeholder="Digite a questão..." value="${qText}" style="margin-bottom:12px;">
-                <div class="options-editor">
+                <div class="options-editor" id="options_${index}">
                     ${options.map((opt, optIndex) => `
                         <div class="option-editor">
-                            <span style="font-weight:600;color:var(--gray-600);font-size:13px;">${String.fromCharCode(65 + optIndex)}</span>
+                            <span class="option-letter">${String.fromCharCode(65 + optIndex)}</span>
                             <input type="text" placeholder="Opção ${String.fromCharCode(65 + optIndex)}" value="${opt}">
                             <input type="radio" name="correct_${index}" value="${optIndex}" ${optIndex === correct ? 'checked' : ''}>
                             <span style="font-size:12px;color:var(--gray-400);"><i class="fas fa-check"></i></span>
+                            ${optIndex > 1 ? `<button class="remove-option" onclick="removeOption(this)"><i class="fas fa-times"></i></button>` : ''}
                         </div>
                     `).join('')}
                 </div>
+                <button class="add-option-btn" onclick="addOptionToQuestion(this)">
+                    <i class="fas fa-plus-circle"></i> Adicionar Opção
+                </button>
             `;
-
             container.appendChild(div);
+        }
+
+        function addOptionToQuestion(btn) {
+            const editor = btn.closest('.question-editor');
+            const optionsContainer = editor.querySelector('.options-editor');
+            const index = parseInt(editor.dataset.index);
+            const currentOptions = optionsContainer.querySelectorAll('.option-editor');
+            const newIndex = currentOptions.length;
+            const letter = String.fromCharCode(65 + newIndex);
+
+            const div = document.createElement('div');
+            div.className = 'option-editor';
+            div.innerHTML = `
+                <span class="option-letter">${letter}</span>
+                <input type="text" placeholder="Opção ${letter}" value="">
+                <input type="radio" name="correct_${index}" value="${newIndex}">
+                <span style="font-size:12px;color:var(--gray-400);"><i class="fas fa-check"></i></span>
+                <button class="remove-option" onclick="removeOption(this)"><i class="fas fa-times"></i></button>
+            `;
+            optionsContainer.appendChild(div);
+            updateOptionLetters(optionsContainer);
+            
+            // Scroll para a nova opção
+            div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function removeOption(btn) {
+            const optionDiv = btn.closest('.option-editor');
+            const container = optionDiv.parentElement;
+            if (container.querySelectorAll('.option-editor').length <= 2) {
+                showToast('⚠️ A questão deve ter pelo menos 2 opções', 'warning');
+                return;
+            }
+            optionDiv.remove();
+            updateOptionLetters(container);
+        }
+
+        function updateOptionLetters(container) {
+            const options = container.querySelectorAll('.option-editor');
+            options.forEach((opt, index) => {
+                const letter = String.fromCharCode(65 + index);
+                const span = opt.querySelector('.option-letter');
+                if (span) span.textContent = letter;
+                const input = opt.querySelector('input[type="text"]');
+                if (input) input.placeholder = `Opção ${letter}`;
+                const radio = opt.querySelector('input[type="radio"]');
+                if (radio) radio.value = index;
+            });
         }
 
         function removeQuestionEditor(btn) {
             const el = btn.closest('.question-editor');
             el.remove();
             document.querySelectorAll('#questionsEditor .question-editor').forEach((q, i) => {
+                q.dataset.index = i;
                 q.querySelector('h4').textContent = `Questão ${i + 1}`;
                 const radios = q.querySelectorAll('input[type="radio"]');
                 radios.forEach(r => {
-                    r.name = `correct_${i}`;
+                    const parent = r.closest('.question-editor');
+                    const idx = parseInt(parent.dataset.index);
+                    r.name = `correct_${idx}`;
                 });
             });
         }
@@ -2722,69 +2313,35 @@
                 showToast('⚠️ Insira um nome para o quiz', 'error');
                 return;
             }
-
             const shuffleSetting = document.getElementById('modalShuffleToggle').checked;
             if (shuffleSetting !== isShuffled) {
                 isShuffled = shuffleSetting;
                 document.getElementById('shuffleToggle').checked = isShuffled;
                 resetShuffledOptions();
             }
-
             const questionEls = document.querySelectorAll('#questionsEditor .question-editor');
             const questions = [];
-
             let hasError = false;
             questionEls.forEach((el, index) => {
                 const inputs = el.querySelectorAll('input[type="text"]');
                 const qText = inputs[0].value.trim();
                 const options = Array.from(el.querySelectorAll('.option-editor input[type="text"]')).map(i => i.value.trim());
                 const correctRadio = el.querySelector(`input[name="correct_${index}"]:checked`);
-
-                if (!qText) {
-                    showToast(`⚠️ Questão ${index + 1} sem texto`, 'error');
-                    hasError = true;
-                    return;
-                }
-                if (options.some(o => !o)) {
-                    showToast(`⚠️ Todas as opções da questão ${index + 1} devem ser preenchidas`, 'error');
-                    hasError = true;
-                    return;
-                }
-                if (!correctRadio) {
-                    showToast(`⚠️ Selecione a resposta correta para questão ${index + 1}`, 'error');
-                    hasError = true;
-                    return;
-                }
-
-                questions.push({
-                    id: generateId(),
-                    text: qText,
-                    options: options,
-                    correct: parseInt(correctRadio.value)
-                });
+                if (!qText) { showToast(`⚠️ Questão ${index + 1} sem texto`, 'error'); hasError = true; return; }
+                if (options.some(o => !o)) { showToast(`⚠️ Todas as opções da questão ${index + 1} devem ser preenchidas`, 'error'); hasError = true; return; }
+                if (!correctRadio) { showToast(`⚠️ Selecione a resposta correta para questão ${index + 1}`, 'error'); hasError = true; return; }
+                questions.push({ id: generateId(), text: qText, options: options, correct: parseInt(correctRadio.value) });
             });
-
             if (hasError || questions.length === 0) return;
-
             if (editingQuizId) {
                 const quiz = quizzes.find(q => q.id === editingQuizId);
-                if (quiz) {
-                    quiz.name = name;
-                    quiz.questions = questions;
-                    currentQuizId = editingQuizId;
-                    showToast('✅ Quiz atualizado com sucesso!', 'success');
-                }
+                if (quiz) { quiz.name = name; quiz.questions = questions; currentQuizId = editingQuizId; showToast('✅ Quiz atualizado!', 'success'); }
             } else {
-                const newQuiz = {
-                    id: generateId(),
-                    name: name,
-                    questions: questions
-                };
+                const newQuiz = { id: generateId(), name: name, questions: questions };
                 quizzes.push(newQuiz);
                 currentQuizId = newQuiz.id;
-                showToast('✅ Quiz criado com sucesso!', 'success');
+                showToast('✅ Quiz criado!', 'success');
             }
-
             saveData();
             closeModal('quizModal');
             resetQuizState();
@@ -2816,13 +2373,9 @@
 
         // ====== EXPORT / IMPORT QUIZ ======
         function exportQuiz() {
-            if (!currentQuizId) {
-                showToast('⚠️ Selecione um quiz para exportar', 'error');
-                return;
-            }
+            if (!currentQuizId) { showToast('⚠️ Selecione um quiz', 'error'); return; }
             const quiz = quizzes.find(q => q.id === currentQuizId);
             if (!quiz) return;
-
             const json = JSON.stringify(quiz, null, 2);
             const blob = new Blob([json], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -2843,11 +2396,7 @@
 
         function processImport() {
             const input = document.getElementById('importInput').value.trim();
-            if (!input) {
-                showToast('⚠️ Cole o JSON do quiz', 'error');
-                return;
-            }
-
+            if (!input) { showToast('⚠️ Cole o JSON', 'error'); return; }
             try {
                 const data = JSON.parse(input);
                 if (!data.name || !data.questions || !Array.isArray(data.questions)) {
@@ -2862,9 +2411,9 @@
                 closeModal('importModal');
                 resetQuizState();
                 renderQuiz(currentQuizId);
-                showToast('✅ Quiz importado com sucesso!', 'success');
+                showToast('✅ Quiz importado!', 'success');
             } catch (e) {
-                showToast('⚠️ Erro ao importar: ' + e.message, 'error');
+                showToast('⚠️ Erro: ' + e.message, 'error');
             }
         }
 
@@ -2875,9 +2424,7 @@
 
         document.querySelectorAll('.modal-overlay').forEach(el => {
             el.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                }
+                if (e.target === this) this.classList.remove('active');
             });
         });
 
